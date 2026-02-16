@@ -1,0 +1,94 @@
+# robots.txt for Trusted Escort
+# Last updated: 2026-02-12
+
+# Allow all search engines to crawl the site
+User-agent: *
+Allow: /
+
+# Disallow authentication and admin pages from indexing
+Disallow: /signin
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /resend-confirmation
+Disallow: /advertiser-dashboard
+Disallow: /admin/
+Disallow: /api/
+
+# Allow location pages
+Allow: /location/*
+
+# Allow escorts pages
+Allow: /escorts
+
+# Allow companion profiles
+Allow: /companion/*
+
+# Sitemap location
+Sitemap: https://www.trustedescort.com/sitemap.xml
+
+# llms.txt for AI crawlers
+# https://www.trustedescort.com/llms.txt
+
+# Crawl-delay for all bots
+Crawl-delay: 1
+
+# Specific rules for Google
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0.5
+
+# Specific rules for Bing
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Specific rules for Yandex
+User-agent: Yandex
+Allow: /
+Crawl-delay: 1
+
+# AI Crawlers
+User-agent: GPTBot
+Allow: /
+Crawl-delay: 2
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: CCBot
+Allow: /
+Crawl-delay: 2
+
+User-agent: anthropic-ai
+Allow: /
+Crawl-delay: 2
+
+User-agent: Claude-Web
+Allow: /
+Crawl-delay: 2
+
+User-agent: Google-Extended
+Allow: /
+Crawl-delay: 2
+
+# Block bad bots and scrapers
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SEMrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: Mediatoolkitbot
+Disallow: /
+
+User-agent: DataForSeoBot
+Disallow: /
