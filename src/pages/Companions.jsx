@@ -1,13 +1,106 @@
 ﻿import React, { useState, useMemo, useEffect } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams, useParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { motion, AnimatePresence } from 'framer-motion'
 import { getAllProfiles } from '../services/profileService'
 import { defaultEscorts } from '../services/defaultEscorts'
 import { setAllEscorts as updateSharedEscorts } from '../services/escortData'
 
+// City-specific SEO data for unique H1 headers and descriptions
+const cityData = {
+  mumbai: {
+    name: 'Mumbai',
+    h1: 'Premium Escorts in Mumbai - Verified Companions',
+    description: 'Find verified premium escorts in Mumbai. Browse our elite Mumbai companions for business events, social gatherings, and private occasions in India\'s financial capital.',
+    keywords: 'Mumbai escorts, escorts in Mumbai, Mumbai companions, premium Mumbai escort service, elite escorts Bombay, verified escorts Mumbai'
+  },
+  delhi: {
+    name: 'Delhi',
+    h1: 'Elite Escorts in Delhi NCR - Exclusive Companions',
+    description: 'Discover elite escorts in Delhi NCR. Our sophisticated Delhi companions are perfect for diplomatic events, corporate functions, and private engagements in the capital.',
+    keywords: 'Delhi escorts, escorts in Delhi, Delhi NCR companions, premium Delhi escort service, elite escorts New Delhi, verified escorts Delhi'
+  },
+  bangalore: {
+    name: 'Bangalore',
+    h1: 'Elite Escorts in Bangalore - Tech City Companions',
+    description: 'Premium escorts in Bangalore for the IT capital\'s sophisticated clientele. Book verified Bangalore companions for tech events, conferences, and exclusive appointments.',
+    keywords: 'Bangalore escorts, escorts in Bangalore, Bengaluru companions, premium Bangalore escort service, IT city escorts, verified escorts Bangalore'
+  },
+  hyderabad: {
+    name: 'Hyderabad',
+    h1: 'Luxury Escorts in Hyderabad - Pearl City Companions',
+    description: 'Experience luxury escorts in Hyderabad. Our refined companions cater to the city of pearls elite for business dinners, social events, and cultural occasions.',
+    keywords: 'Hyderabad escorts, escorts in Hyderabad, Hyderabad companions, premium Hyderabad escort service, Hi-Tech City escorts, verified escorts Hyderabad'
+  },
+  pune: {
+    name: 'Pune',
+    h1: 'Exclusive Escorts in Pune - Educated Companions',
+    description: 'Premium escorts in Pune featuring educated and elegant companions. Perfect for corporate professionals seeking sophisticated company in Maharashtra\'s cultural capital.',
+    keywords: 'Pune escorts, escorts in Pune, Pune companions, premium Pune escort service, Koregaon Park escorts, verified escorts Pune'
+  },
+  goa: {
+    name: 'Goa',
+    h1: 'Beach Escorts in Goa - Paradise Companions',
+    description: 'Discover stunning beach escorts in Goa for your vacation. Our party companions are perfect for beach resorts, yacht parties, and Goa nightlife experiences.',
+    keywords: 'Goa escorts, escorts in Goa, Goa beach companions, premium Goa escort service, party escorts Goa, verified escorts Goa'
+  },
+  chennai: {
+    name: 'Chennai',
+    h1: 'Premium Escorts in Chennai - South Indian Companions',
+    description: 'Find cultured escorts in Chennai who appreciate the city\'s rich heritage. Book verified Chennai companions for business meetings, cultural events, and private occasions.',
+    keywords: 'Chennai escorts, escorts in Chennai, Chennai companions, premium Chennai escort service, South Indian escorts, verified escorts Chennai'
+  },
+  kolkata: {
+    name: 'Kolkata',
+    h1: 'Elite Escorts in Kolkata - City of Joy Companions',
+    description: 'Sophisticated escorts in Kolkata featuring elegant Bengali companions. Perfect for art gallery visits, cultural programs, fine dining, and business events.',
+    keywords: 'Kolkata escorts, escorts in Kolkata, Kolkata companions, premium Kolkata escort service, Bengali escorts, verified escorts Kolkata'
+  },
+  jaipur: {
+    name: 'Jaipur',
+    h1: 'Royal Escorts in Jaipur - Pink City Companions',
+    description: 'Experience royal escorts in Jaipur who embody the Pink City\'s regal charm. Book verified companions for heritage hotel visits, palace tours, and exclusive events.',
+    keywords: 'Jaipur escorts, escorts in Jaipur, Jaipur companions, premium Jaipur escort service, Pink City escorts, verified escorts Jaipur'
+  },
+  chandigarh: {
+    name: 'Chandigarh',
+    h1: 'Luxury Escorts in Chandigarh - City Beautiful Companions',
+    description: 'Premium escorts in Chandigarh for the planned city\'s sophisticated lifestyle. Book elegant companions for hotel meetings, parties, and corporate events.',
+    keywords: 'Chandigarh escorts, escorts in Chandigarh, Chandigarh companions, premium Chandigarh escort service, Punjab escorts, verified escorts Chandigarh'
+  },
+  ahmedabad: {
+    name: 'Ahmedabad',
+    h1: 'Elite Escorts in Ahmedabad - Gujarat\'s Premium Companions',
+    description: 'Find elite escorts in Ahmedabad for Gujarat\'s business community. Our educated companions are perfect for corporate functions, hotel meetings, and private occasions.',
+    keywords: 'Ahmedabad escorts, escorts in Ahmedabad, Ahmedabad companions, premium Ahmedabad escort service, Gujarat escorts, verified escorts Ahmedabad'
+  },
+  lucknow: {
+    name: 'Lucknow',
+    h1: 'Nawabi Escorts in Lucknow - City of Tehzeeb Companions',
+    description: 'Experience refined escorts in Lucknow embodying the city\'s nawabi culture. Book sophisticated companions for cultural events, fine dining, and private meetings.',
+    keywords: 'Lucknow escorts, escorts in Lucknow, Lucknow companions, premium Lucknow escort service, UP escorts, verified escorts Lucknow'
+  }
+}
+
+// Get city data with fallback for unlisted cities
+const getCityData = (citySlug) => {
+  const normalizedCity = citySlug?.toLowerCase().replace(/[^a-z]/g, '') || 'all'
+  if (cityData[normalizedCity]) {
+    return cityData[normalizedCity]
+  }
+  // Fallback for cities not in the list
+  const formattedName = citySlug?.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) || 'India'
+  return {
+    name: formattedName,
+    h1: `Premium Escorts in ${formattedName} - Verified Companions`,
+    description: `Find verified premium escorts in ${formattedName}. Browse our elite companions for business events, social gatherings, and private occasions.`,
+    keywords: `${formattedName} escorts, escorts in ${formattedName}, ${formattedName} companions, premium escort service ${formattedName}`
+  }
+}
+
 function Escorts() {
   const [searchParams] = useSearchParams()
+  const { city: cityParam } = useParams() // Get city from URL path
   const [locationFilter, setLocationFilter] = useState('all')
   const [ageRange, setAgeRange] = useState([18, 40])
   const [allEscorts, setAllEscorts] = useState([])
@@ -15,13 +108,21 @@ function Escorts() {
   const [lightboxImage, setLightboxImage] = useState(null)
   const [locationSearch, setLocationSearch] = useState('')
 
-  // Check for location query parameter and set filter
+  // Check for location from path param or query parameter
   useEffect(() => {
-    const locationParam = searchParams.get('location')
-    if (locationParam) {
-      setLocationFilter(locationParam)
+    if (cityParam) {
+      // Convert URL slug to proper city name (e.g., "mumbai" -> "Mumbai")
+      const cityName = cityParam.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+      setLocationFilter(cityName)
+    } else {
+      const locationParam = searchParams.get('location')
+      if (locationParam) {
+        setLocationFilter(locationParam)
+      } else {
+        setLocationFilter('all')
+      }
     }
-  }, [searchParams])
+  }, [cityParam, searchParams])
 
   // Location-based FAQ function
   const getLocationFAQs = (location) => {
@@ -200,31 +301,36 @@ function Escorts() {
     },
   }
 
+  // Get city-specific SEO data
+  const currentCityData = getCityData(locationFilter !== 'all' ? locationFilter : null)
+  const citySlug = locationFilter !== 'all' ? locationFilter.toLowerCase().replace(/\s+/g, '-') : null
+  const siteUrl = 'https://trusted-six.vercel.app' // Update to your actual domain
+
   return (
     <>
       <Helmet>
         {/* Primary Meta Tags */}
-        <title>{locationFilter !== 'all' ? `${locationFilter} Escorts` : 'Escorts'} | Trusted Escort</title>
-        <meta name="title" content={`${locationFilter !== 'all' ? `${locationFilter} Escorts` : 'Escorts'} | Trusted Escort`} />
-        <meta name="description" content={locationFilter !== 'all' ? `Browse our exclusive verified escorts in ${locationFilter}. Premium companionship services available 24/7.` : 'Browse our selection of verified exclusive escorts across India. Premium companionship services available 24/7.'} />
-        <meta name="keywords" content={locationFilter !== 'all' ? `${locationFilter} escorts, ${locationFilter} companions, premium escorts ${locationFilter}, verified escorts ${locationFilter}` : 'escorts India, premium escorts, verified companions, luxury escort service'} />
-        <link rel="canonical" href={locationFilter !== 'all' ? `https://www.trustedescort.com/escorts?location=${locationFilter}` : 'https://www.trustedescort.com/escorts'} />
+        <title>{locationFilter !== 'all' ? `${currentCityData.name} Escorts` : 'Escorts'} | Trusted Escort</title>
+        <meta name="title" content={locationFilter !== 'all' ? `${currentCityData.name} Escorts | Trusted Escort` : 'Escorts | Trusted Escort'} />
+        <meta name="description" content={locationFilter !== 'all' ? currentCityData.description : 'Browse our selection of verified exclusive escorts across India. Premium companionship services available 24/7.'} />
+        <meta name="keywords" content={locationFilter !== 'all' ? currentCityData.keywords : 'escorts India, premium escorts, verified companions, luxury escort service'} />
+        <link rel="canonical" href={locationFilter !== 'all' ? `${siteUrl}/escorts/in/${citySlug}` : `${siteUrl}/escorts`} />
         
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content={locationFilter !== 'all' ? `https://www.trustedescort.com/escorts?location=${locationFilter}` : 'https://www.trustedescort.com/escorts'} />
-        <meta property="og:title" content={`${locationFilter !== 'all' ? `${locationFilter} Escorts` : 'Escorts'} | Trusted Escort`} />
-        <meta property="og:description" content={locationFilter !== 'all' ? `Browse our exclusive escorts in ${locationFilter}` : 'Browse our selection of exclusive escorts.'} />
-        <meta property="og:image" content="https://www.trustedescort.com/og-image.jpg" />
+        <meta property="og:url" content={locationFilter !== 'all' ? `${siteUrl}/escorts/in/${citySlug}` : `${siteUrl}/escorts`} />
+        <meta property="og:title" content={locationFilter !== 'all' ? `${currentCityData.name} Escorts | Trusted Escort` : 'Escorts | Trusted Escort'} />
+        <meta property="og:description" content={locationFilter !== 'all' ? currentCityData.description : 'Browse our selection of exclusive escorts across India.'} />
+        <meta property="og:image" content={`${siteUrl}/og-image.jpg`} />
         <meta property="og:locale" content="en_IN" />
         <meta property="og:site_name" content="Trusted Escort" />
         
         {/* Twitter */}
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content={locationFilter !== 'all' ? `https://www.trustedescort.com/escorts?location=${locationFilter}` : 'https://www.trustedescort.com/escorts'} />
-        <meta property="twitter:title" content={`${locationFilter !== 'all' ? `${locationFilter} Escorts` : 'Escorts'} | Trusted Escort`} />
-        <meta property="twitter:description" content={locationFilter !== 'all' ? `Browse our exclusive escorts in ${locationFilter}` : 'Browse our selection of exclusive escorts.'} />
-        <meta property="twitter:image" content="https://www.trustedescort.com/og-image.jpg" />
+        <meta property="twitter:url" content={locationFilter !== 'all' ? `${siteUrl}/escorts/in/${citySlug}` : `${siteUrl}/escorts`} />
+        <meta property="twitter:title" content={locationFilter !== 'all' ? `${currentCityData.name} Escorts | Trusted Escort` : 'Escorts | Trusted Escort'} />
+        <meta property="twitter:description" content={locationFilter !== 'all' ? currentCityData.description : 'Browse our selection of exclusive escorts across India.'} />
+        <meta property="twitter:image" content={`${siteUrl}/og-image.jpg`} />
         
         {/* Additional SEO */}
         <meta name="robots" content="index, follow" />
@@ -243,22 +349,22 @@ function Escorts() {
             {JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Service",
-              "name": `Premium Escort Services in ${locationFilter}`,
-              "description": `Browse our exclusive verified escorts in ${locationFilter}. Premium companionship services available 24/7.`,
+              "name": `Premium Escort Services in ${currentCityData.name}`,
+              "description": currentCityData.description,
               "provider": {
                 "@type": "Organization",
                 "name": "Trusted Escort",
-                "url": "https://www.trustedescort.com"
+                "url": siteUrl
               },
               "areaServed": {
                 "@type": "City",
-                "name": locationFilter,
+                "name": currentCityData.name,
                 "addressCountry": "IN"
               },
               "serviceType": "Escort Service",
               "availableChannel": {
                 "@type": "ServiceChannel",
-                "serviceUrl": `https://www.trustedescort.com/escorts?location=${locationFilter}`
+                "serviceUrl": `${siteUrl}/escorts/in/${citySlug}`
               }
             })}
           </script>
@@ -274,19 +380,19 @@ function Escorts() {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "Home",
-                "item": "https://www.trustedescort.com"
+                "item": siteUrl
               },
               {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "Escorts",
-                "item": "https://www.trustedescort.com/escorts"
+                "item": `${siteUrl}/escorts`
               },
               ...(locationFilter !== 'all' ? [{
                 "@type": "ListItem",
                 "position": 3,
-                "name": locationFilter,
-                "item": `https://www.trustedescort.com/escorts?location=${locationFilter}`
+                "name": currentCityData.name,
+                "item": `${siteUrl}/escorts/in/${citySlug}`
               }] : [])
             ]
           })}
@@ -391,7 +497,13 @@ function Escorts() {
             <h1 className="text-5xl md:text-6xl font-serif font-bold mb-4">
               {locationFilter !== 'all' ? (
                 <>
-                  Premium <span className="text-gold">{locationFilter}</span> Escorts
+                  {currentCityData.h1.split(currentCityData.name).map((part, i, arr) => 
+                    i === arr.length - 1 ? part : (
+                      <React.Fragment key={i}>
+                        {part}<span className="text-gold">{currentCityData.name}</span>
+                      </React.Fragment>
+                    )
+                  )}
                 </>
               ) : (
                 <>
@@ -401,7 +513,7 @@ function Escorts() {
             </h1>
             <p className="text-xl text-gray-400">
               {locationFilter !== 'all' 
-                ? `Discover verified, sophisticated companions in ${locationFilter}. Elite escort services available 24/7 for discerning clientele.`
+                ? currentCityData.description
                 : 'Browse our selection of verified elite companions across India. Premium companionship services available 24/7.'
               }
             </p>
@@ -472,7 +584,7 @@ function Escorts() {
                       .map((location) => (
                         <Link
                           key={location}
-                          to={`/escorts?location=${location}`}
+                          to={`/escorts/in/${location.toLowerCase().replace(/\s+/g, '-')}`}
                           onClick={() => { setLocationFilter(location); setLocationSearch(''); }}
                         >
                           <motion.div

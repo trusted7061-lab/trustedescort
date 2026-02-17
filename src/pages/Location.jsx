@@ -816,7 +816,7 @@ function Location() {
             <p className="text-xl text-gray-300">
               Browse our exclusive selection of elite escorts available in {currentCity.name}.
             </p>
-            <Link to={`/escorts?location=${currentCity.name}`} aria-label={`Browse all available escorts in ${currentCity.name}`}>
+            <Link to={`/escorts/in/${currentCity.name.toLowerCase().replace(/\s+/g, '-')}`} aria-label={`Browse all available escorts in ${currentCity.name}`}>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -1099,7 +1099,7 @@ function Location() {
             transition={{ delay: 0.3 }}
             className="text-center"
           >
-            <Link to={`/escorts?location=${currentCity.name}`} aria-label={`View complete gallery of all escorts available in ${currentCity.name}`}>
+            <Link to={`/escorts/in/${currentCity.name.toLowerCase().replace(/\s+/g, '-')}`} aria-label={`View complete gallery of all escorts available in ${currentCity.name}`}>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}

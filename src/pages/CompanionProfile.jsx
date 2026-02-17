@@ -694,7 +694,7 @@ function CompanionProfile() {
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.02 }}
                 >
-                  <Link to={`/escorts?location=${city}`}>
+                  <Link to={`/escorts/in/${city.toLowerCase().replace(/\s+/g, '-')}`}>
                     <motion.div
                       whileHover={{ y: -5, scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}

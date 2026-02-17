@@ -31,7 +31,7 @@ function Home() {
   const handleSearch = (cityName = null) => {
     const targetCity = cityName || filteredCities[0]
     if (targetCity) {
-      navigate(`/escorts?location=${targetCity}`)
+      navigate(`/escorts/in/${targetCity.toLowerCase().replace(/\s+/g, '-')}`)
       setSearchCity('')
       setShowSuggestions(false)
     }
@@ -223,10 +223,10 @@ function Home() {
             "@context": "https://schema.org",
             "@type": "WebSite",
             "name": "Trusted Escort",
-            "url": "https://www.trustedescort.com",
+            "url": "https://trusted-six.vercel.app",
             "potentialAction": {
               "@type": "SearchAction",
-              "target": "https://www.trustedescort.com/escorts?location={search_term_string}",
+              "target": "https://trusted-six.vercel.app/escorts/in/{search_term_string}",
               "query-input": "required name=search_term_string"
             }
           })}
@@ -653,7 +653,7 @@ function Home() {
           >
             {cities.map((city, index) => (
               <motion.div key={city} variants={itemVariants}>
-                <Link to={`/escorts?location=${city}`}>
+                <Link to={`/escorts/in/${city.toLowerCase().replace(/\s+/g, '-')}`}>
                   <motion.div
                     whileHover={{ y: -5, scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}

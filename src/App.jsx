@@ -54,6 +54,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/home-simple" element={<HomeSimple />} />
               <Route path="/escorts" element={<Escorts />} />
+              <Route path="/escorts/in/:city" element={<Escorts />} />
               <Route path="/escorts/:slug" element={<CompanionProfile />} />
               <Route path="/location/:city" element={<Location />} />
               <Route path="/booking" element={<Booking />} />
