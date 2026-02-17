@@ -13,6 +13,7 @@ function Escorts() {
   const [allEscorts, setAllEscorts] = useState([])
   const [openFAQIndex, setOpenFAQIndex] = useState(null)
   const [lightboxImage, setLightboxImage] = useState(null)
+  const [locationSearch, setLocationSearch] = useState('')
 
   // Check for location query parameter and set filter
   useEffect(() => {
@@ -421,37 +422,77 @@ function Escorts() {
               <div className="card-glass p-6 sticky top-24">
                 <h3 className="text-xl font-serif font-bold text-gold mb-6">Filters</h3>
 
-                {/* Location Filter */}
+                {/* Location Search */}
                 <div className="mb-8">
                   <label className="block text-sm font-semibold text-gold mb-3">
-                    Location
+                    Search Location
                   </label>
-                  <div className="space-y-2">
-                    {locations.map((location) => (
-                      <Link
-                        key={location}
-                        to={location === 'all' ? '/escorts' : `/escorts?location=${location}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={location === 'all' ? 'View escorts in all locations' : `View escorts in ${location}`}
+                  <div className="relative mb-3">
+                    <input
+                      type="text"
+                      value={locationSearch}
+                      onChange={(e) => setLocationSearch(e.target.value)}
+                      placeholder="Search city..."
+                      className="w-full px-4 py-2.5 pl-10 bg-dark-bg border border-gold/30 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-gold transition"
+                    />
+                    <svg className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    {locationSearch && (
+                      <button
+                        onClick={() => setLocationSearch('')}
+                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gold"
                       >
-                        <motion.div
-                          whileHover={{ x: 5 }}
-                          className={`flex items-center cursor-pointer group p-2 rounded-lg transition-colors ${
-                            locationFilter === location ? 'bg-gold/10 border border-gold/30' : 'hover:bg-dark-hover'
-                          }`}
+                        ✕
+                      </button>
+                    )}
+                  </div>
+                  
+                  {/* Filtered Location Results */}
+                  <div className="max-h-64 overflow-y-auto space-y-1 custom-scrollbar">
+                    {/* Show All option */}
+                    <Link to="/escorts" onClick={() => { setLocationFilter('all'); setLocationSearch(''); }}>
+                      <motion.div
+                        whileHover={{ x: 5 }}
+                        className={`flex items-center cursor-pointer group p-2 rounded-lg transition-colors ${
+                          locationFilter === 'all' ? 'bg-gold/10 border border-gold/30' : 'hover:bg-dark-hover'
+                        }`}
+                      >
+                        <div className={`w-2 h-2 rounded-full mr-3 ${locationFilter === 'all' ? 'bg-gold' : 'bg-gray-500'}`} />
+                        <span className={`text-sm ${locationFilter === 'all' ? 'text-gold font-semibold' : 'text-gray-300 group-hover:text-gold'} transition-colors`}>
+                          All Locations
+                        </span>
+                      </motion.div>
+                    </Link>
+                    
+                    {/* Filtered cities */}
+                    {locations
+                      .filter(loc => loc !== 'all' && loc.toLowerCase().includes(locationSearch.toLowerCase()))
+                      .slice(0, locationSearch ? 20 : 6) // Show 6 popular cities by default, more when searching
+                      .map((location) => (
+                        <Link
+                          key={location}
+                          to={`/escorts?location=${location}`}
+                          onClick={() => { setLocationFilter(location); setLocationSearch(''); }}
                         >
-                          <div className={`w-2 h-2 rounded-full mr-3 ${
-                            locationFilter === location ? 'bg-gold' : 'bg-gray-500'
-                          }`} />
-                          <span className={`text-sm capitalize ${
-                            locationFilter === location ? 'text-gold font-semibold' : 'text-gray-300 group-hover:text-gold'
-                          } transition-colors`}>
-                            {location === 'all' ? 'All Locations' : location}
-                          </span>
-                        </motion.div>
-                      </Link>
-                    ))}
+                          <motion.div
+                            whileHover={{ x: 5 }}
+                            className={`flex items-center cursor-pointer group p-2 rounded-lg transition-colors ${
+                              locationFilter === location ? 'bg-gold/10 border border-gold/30' : 'hover:bg-dark-hover'
+                            }`}
+                          >
+                            <div className={`w-2 h-2 rounded-full mr-3 ${locationFilter === location ? 'bg-gold' : 'bg-gray-500'}`} />
+                            <span className={`text-sm capitalize ${locationFilter === location ? 'text-gold font-semibold' : 'text-gray-300 group-hover:text-gold'} transition-colors`}>
+                              {location}
+                            </span>
+                          </motion.div>
+                        </Link>
+                      ))}
+                    
+                    {/* No results message */}
+                    {locationSearch && locations.filter(loc => loc !== 'all' && loc.toLowerCase().includes(locationSearch.toLowerCase())).length === 0 && (
+                      <p className="text-gray-500 text-sm p-2">No cities found</p>
+                    )}
                   </div>
                 </div>
 

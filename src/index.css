@@ -59,3 +59,13 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background: #e5c158;
 }
+
+/* Custom scrollbar for smaller containers */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #D4AF37;
+  border-radius: 2px;
+}
