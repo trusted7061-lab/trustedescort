@@ -4,6 +4,36 @@ import { Helmet } from 'react-helmet-async'
 import { motion, AnimatePresence } from 'framer-motion'
 import { getAllProfiles } from '../services/profileService'
 import { defaultEscorts } from '../services/escortData'
+import { getCityInfo, getAllCities } from '../services/locationsData'
+
+// Generate dynamic city data for any location
+const generateCityData = (cityName) => {
+  const cityInfo = getCityInfo(cityName)
+  const name = cityInfo?.name || cityName.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+  const state = cityInfo?.state || 'India'
+  
+  // Random image selection for non-major cities
+  const defaultImages = [
+    'https://images.unsplash.com/photo-1570168007204-dfb528c6958f?w=1200&h=600&fit=crop',
+    'https://images.unsplash.com/photo-1587474260584-136574528ed5?w=1200&h=600&fit=crop',
+    'https://images.unsplash.com/photo-1596176530529-78163a4f7af2?w=1200&h=600&fit=crop',
+    'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=1200&h=600&fit=crop',
+    'https://images.unsplash.com/photo-1558431382-27e303142255?w=1200&h=600&fit=crop',
+    'https://images.unsplash.com/photo-1584487702749-29a3e768a21a?w=1200&h=600&fit=crop'
+  ]
+  const imageIndex = name.length % defaultImages.length
+  
+  return {
+    name,
+    title: `Premium Escorts in ${name}`,
+    description: `${name}'s trusted escort service offering sophisticated companionship for business and personal occasions in ${state}. Our elite escorts provide discreet, professional services.`,
+    image: defaultImages[imageIndex],
+    highlights: ['Hotel Services', 'Business Meetings', 'Private Events', 'Dinner Escorts'],
+    state,
+    isArea: cityInfo?.isArea || false,
+    parentCity: cityInfo?.city || null
+  }
+}
 
 function Location() {
   const { city } = useParams()
@@ -512,7 +542,8 @@ function Location() {
   }
 
   const normalizedCity = city?.toLowerCase()
-  const currentCity = cityData[normalizedCity] || cityData.mumbai
+  // Use predefined city data if available, otherwise generate dynamically
+  const currentCity = cityData[normalizedCity] || (city ? generateCityData(city) : cityData.mumbai)
 
   // Load featured escorts for this city
   useEffect(() => {

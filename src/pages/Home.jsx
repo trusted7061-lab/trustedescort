@@ -1,30 +1,21 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { motion, AnimatePresence } from 'framer-motion'
+import { getAllCities, majorCities } from '../services/locationsData'
 
 function Home() {
   const navigate = useNavigate()
   const [searchCity, setSearchCity] = useState('')
   const [showSuggestions, setShowSuggestions] = useState(false)
   
-  const cities = [
-    'Mumbai', 'Delhi', 'Bangalore', 'Hyderabad', 'Pune', 'Goa',
-    'Chennai', 'Kolkata', 'Chandigarh', 'Jaipur', 'Indore', 'Ahmedabad',
-    'Surat', 'Lucknow', 'Nagpur', 'Visakhapatnam', 'Bhopal', 'Patna',
-    'Vadodara', 'Agra', 'Nashik', 'Kochi', 'Coimbatore', 'Thane', 
-    'Ghaziabad', 'Ludhiana', 'Faridabad', 'Meerut', 'Rajkot', 
-    'Kalyan-Dombivli', 'Varanasi', 'Srinagar', 'Aurangabad', 'Dhanbad', 
-    'Amritsar', 'Navi Mumbai', 'Allahabad (Prayagraj)', 'Howrah', 'Ranchi', 
-    'Jabalpur', 'Gwalior', 'Vijayawada', 'Jodhpur', 'Madurai', 'Raipur', 
-    'Kota', 'Guwahati', 'Solapur', 'Hubli-Dharwad', 'Bareilly', 'Moradabad', 
-    'Mysuru (Mysore)', 'Tiruchirappalli', 'Salem', 'Aligarh', 'Bhubaneswar', 
-    'Jalandhar', 'Gorakhpur', 'Guntur', 'Bikaner', 'Noida', 'Firozabad', 
-    'Jamshedpur', 'Bhavnagar', 'Cuttack', 'Dehradun', 'Asansol', 'Nellore', 
-    'Ajmer', 'Kollam', 'Mangalore'
-  ]
+  // Get all cities for search functionality
+  const allCities = useMemo(() => getAllCities(), [])
   
-  const filteredCities = cities.filter(city => 
+  // Display cities for homepage grid (major cities only)
+  const displayCities = majorCities
+  
+  const filteredCities = allCities.filter(city => 
     city.toLowerCase().includes(searchCity.toLowerCase())
   )
   
@@ -651,7 +642,7 @@ function Home() {
             viewport={{ once: true }}
             className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4"
           >
-            {cities.map((city, index) => (
+            {displayCities.map((city, index) => (
               <motion.div key={city} variants={itemVariants}>
                 <Link to={`/escorts/in/${city.toLowerCase().replace(/\s+/g, '-')}`}>
                   <motion.div

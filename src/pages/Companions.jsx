@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { getAllProfiles } from '../services/profileService'
 import { defaultEscorts } from '../services/defaultEscorts'
 import { setAllEscorts as updateSharedEscorts } from '../services/escortData'
+import { getAllCities } from '../services/locationsData'
 
 // City-specific SEO data for unique H1 headers and descriptions
 const cityData = {
@@ -274,7 +275,8 @@ function Escorts() {
     return () => window.removeEventListener('keydown', handleEscKey)
   }, [lightboxImage])
 
-  const locations = ['all', 'Mumbai', 'Delhi', 'Bangalore', 'Hyderabad', 'Pune', 'Goa', 'Chennai', 'Kolkata', 'Chandigarh', 'Jaipur', 'Indore', 'Ahmedabad', 'Surat', 'Lucknow', 'Nagpur', 'Thane', 'Bhopal', 'Visakhapatnam', 'Patna', 'Vadodara', 'Ghaziabad', 'Ludhiana', 'Agra', 'Nashik', 'Faridabad', 'Meerut', 'Rajkot', 'Kalyan-Dombivli', 'Varanasi', 'Srinagar', 'Aurangabad', 'Dhanbad', 'Amritsar', 'Navi Mumbai', 'Allahabad (Prayagraj)', 'Howrah', 'Ranchi', 'Jabalpur', 'Gwalior', 'Coimbatore', 'Vijayawada', 'Jodhpur', 'Madurai', 'Raipur', 'Kota', 'Guwahati', 'Solapur', 'Hubli-Dharwad', 'Bareilly', 'Moradabad', 'Mysuru (Mysore)', 'Tiruchirappalli', 'Salem', 'Aligarh', 'Bhubaneswar', 'Jalandhar', 'Gorakhpur', 'Guntur', 'Bikaner', 'Noida', 'Firozabad', 'Jamshedpur', 'Bhavnagar', 'Cuttack', 'Kochi', 'Dehradun', 'Asansol', 'Nellore', 'Ajmer', 'Kollam', 'Mangalore']
+  // Get all locations dynamically from centralized data
+  const locations = useMemo(() => ['all', ...getAllCities()], [])
 
   const filteredEscorts = useMemo(() => {
     return allEscorts.filter((escort) => {

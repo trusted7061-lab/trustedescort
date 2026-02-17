@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { motion, AnimatePresence } from 'framer-motion'
 import { getCurrentUser, getCurrentUserProfile, createProfile, logoutUser, deleteUserAccount, imageToBase64 } from '../services/profileService'
+import { getAllLocationsForAdvertiser } from '../services/locationsData'
 
 function AdvertiserDashboard() {
   const navigate = useNavigate()
@@ -35,12 +36,8 @@ function AdvertiserDashboard() {
     gallery: ['', '', ''] // Three gallery images
   })
 
-  const locations = [
-    'Mumbai', 'Delhi', 'Bangalore', 'Hyderabad', 'Pune', 'Goa',
-    'Chennai', 'Kolkata', 'Chandigarh', 'Jaipur', 'Indore', 'Ahmedabad',
-    'Surat', 'Lucknow', 'Nagpur', 'Visakhapatnam', 'Bhopal', 'Patna',
-    'Vadodara', 'Agra', 'Nashik', 'Kochi', 'Coimbatore'
-  ]
+  // Get all locations from centralized data
+  const locations = useMemo(() => getAllLocationsForAdvertiser(), [])
 
   const availableServices = [
     'Dinner & Wine', 'Travel Companion', 'Events', 'Nightlife',
