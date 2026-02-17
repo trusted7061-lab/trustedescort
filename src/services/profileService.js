@@ -86,14 +86,26 @@ export const loginUser = async (identifier, password) => {
 
     return userData
   } catch (error) {
-    // Fallback to localStorage for development
+    // Fallback to localStorage when backend is unavailable
     console.warn('Backend login failed, using localStorage fallback:', error.message)
     
     const users = JSON.parse(localStorage.getItem('localUsers') || '[]')
-    const user = users.find(u => u.email === identifier || u.phone === identifier)
+    const user = users.find(u => 
+      (u.email && u.email.toLowerCase() === identifier.toLowerCase()) || 
+      (u.phone && u.phone === identifier)
+    )
     
     if (!user) {
-      throw new Error('Invalid credentials')
+      // Check if it's a network error vs actual invalid credentials
+      if (error.message === 'Failed to fetch' || error.message.includes('fetch')) {
+        throw new Error('Server unavailable. Please register first or try again later.')
+      }
+      throw new Error('Invalid email/phone or password')
+    }
+    
+    // Verify password for local users
+    if (user.password && user.password !== password) {
+      throw new Error('Invalid email/phone or password')
     }
     
     // Store user data
@@ -133,8 +145,49 @@ export const googleAuth = async (credential) => {
 
     return userData
   } catch (error) {
-    console.error('Google auth error:', error)
-    throw error
+    console.warn('Backend Google auth failed, using localStorage fallback:', error.message)
+    
+    // Decode the Google JWT credential to get user info
+    try {
+      const payload = JSON.parse(atob(credential.split('.')[1]))
+      const { email, name, picture, sub: googleId } = payload
+      
+      // Check if user already exists locally
+      const users = JSON.parse(localStorage.getItem('localUsers') || '[]')
+      let user = users.find(u => u.email === email || u.googleId === googleId)
+      
+      if (!user) {
+        // Create new user from Google data
+        user = {
+          id: Date.now().toString(),
+          email,
+          name: name || email.split('@')[0],
+          googleId,
+          profileImage: picture,
+          isVerified: true,
+          isEmailVerified: true,
+          isGoogleUser: true,
+          userType: 'user',
+          createdAt: new Date().toISOString()
+        }
+        users.push(user)
+        localStorage.setItem('localUsers', JSON.stringify(users))
+      }
+      
+      // Store user data and auth token
+      localStorage.setItem('currentUser', JSON.stringify(user))
+      localStorage.setItem('authToken', 'local-google-token-' + user.id)
+      
+      // Dispatch auth event
+      window.dispatchEvent(new CustomEvent('authChanged', {
+        detail: { user, isAuthenticated: true }
+      }))
+      
+      return user
+    } catch (decodeError) {
+      console.error('Failed to decode Google credential:', decodeError)
+      throw new Error('Google sign-in failed. Please try again.')
+    }
   }
 }
 
