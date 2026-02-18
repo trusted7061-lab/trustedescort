@@ -835,3 +835,112 @@ export const getTotalLocationsCount = () => {
   })
   return count
 }
+
+// Get sub-locations for a city (areas, nearby cities in same district/state)
+export const getSubLocationsForCity = (cityName) => {
+  if (!cityName || cityName === 'all') return []
+  
+  const citySlug = cityName.toLowerCase().replace(/\s+/g, '-')
+  const subLocations = []
+  
+  // Find the city in the data
+  for (const [stateSlug, state] of Object.entries(locationsData)) {
+    for (const [districtSlug, district] of Object.entries(state.districts)) {
+      // Check if this is the city
+      const cityMatch = district.cities.find(c => 
+        c.toLowerCase().replace(/\s+/g, '-') === citySlug
+      )
+      
+      if (cityMatch) {
+        // Add areas for this district if available
+        if (district.areas && district.areas.length > 0) {
+          district.areas.forEach(area => {
+            subLocations.push({
+              name: area,
+              type: 'area',
+              parentCity: cityMatch,
+              district: district.name,
+              state: state.name
+            })
+          })
+        }
+        
+        // Add other cities in same district
+        district.cities.forEach(c => {
+          if (c.toLowerCase() !== cityMatch.toLowerCase()) {
+            subLocations.push({
+              name: c,
+              type: 'city',
+              district: district.name,
+              state: state.name
+            })
+          }
+        })
+        
+        // Get nearby cities from other districts in same state (limited to 10)
+        Object.entries(state.districts).forEach(([dSlug, d]) => {
+          if (dSlug !== districtSlug) {
+            d.cities.slice(0, 3).forEach(c => {
+              subLocations.push({
+                name: c,
+                type: 'nearby',
+                district: d.name,
+                state: state.name
+              })
+            })
+          }
+        })
+        
+        return subLocations.slice(0, 20) // Limit results
+      }
+    }
+  }
+  
+  return subLocations
+}
+
+// Popular areas for major cities (manually curated for SEO)
+export const cityAreas = {
+  mumbai: ['Bandra', 'Andheri', 'Juhu', 'Powai', 'Lower Parel', 'Worli', 'Colaba', 'Marine Lines', 'Malad', 'Goregaon', 'Chembur', 'Vashi', 'Thane', 'Navi Mumbai'],
+  delhi: ['Connaught Place', 'Hauz Khas', 'Lajpat Nagar', 'Karol Bagh', 'Saket', 'Dwarka', 'Rohini', 'Vasant Kunj', 'Greater Kailash', 'Defence Colony', 'Noida', 'Gurgaon'],
+  bangalore: ['MG Road', 'Koramangala', 'Indiranagar', 'Whitefield', 'Electronic City', 'HSR Layout', 'Jayanagar', 'JP Nagar', 'Marathahalli', 'Hebbal'],
+  hyderabad: ['Banjara Hills', 'Jubilee Hills', 'Hitech City', 'Gachibowli', 'Madhapur', 'Secunderabad', 'Kukatpally', 'LB Nagar', 'Ameerpet', 'Begumpet'],
+  pune: ['Koregaon Park', 'Hinjewadi', 'Kharadi', 'Magarpatta', 'Viman Nagar', 'Aundh', 'Baner', 'Wakad', 'Kalyani Nagar', 'Shivajinagar'],
+  goa: ['Calangute', 'Baga', 'Candolim', 'Anjuna', 'Vagator', 'Panjim', 'Margao', 'Colva', 'Palolem', 'Morjim'],
+  chennai: ['T Nagar', 'Anna Nagar', 'Adyar', 'Velachery', 'OMR', 'ECR', 'Nungambakkam', 'Mylapore', 'Besant Nagar', 'Guindy'],
+  kolkata: ['Park Street', 'Salt Lake', 'New Town', 'Ballygunge', 'Esplanade', 'Howrah', 'Dum Dum', 'Tollygunge', 'Alipore', 'Lake Town'],
+  jaipur: ['MI Road', 'C-Scheme', 'Civil Lines', 'Vaishali Nagar', 'Malviya Nagar', 'Jagatpura', 'Mansarovar', 'Tonk Road', 'Raja Park'],
+  chandigarh: ['Sector 17', 'Sector 22', 'Sector 35', 'Sector 43', 'Mohali', 'Panchkula', 'Industrial Area', 'Manimajra'],
+  ahmedabad: ['SG Highway', 'CG Road', 'Vastrapur', 'Prahlad Nagar', 'Navrangpura', 'Satellite', 'Maninagar', 'Ashram Road'],
+  lucknow: ['Hazratganj', 'Gomti Nagar', 'Aliganj', 'Charbagh', 'Mahanagar', 'Aminabad', 'Indira Nagar', 'Alambagh'],
+  kochi: ['MG Road', 'Marine Drive', 'Fort Kochi', 'Kakkanad', 'Edappally', 'Palarivattom', 'Ernakulam', 'Vyttila'],
+  nashik: ['College Road', 'Gangapur Road', 'Indira Nagar', 'Panchavati', 'Satpur', 'Cidco', 'Nashik Road', 'Dwarka'],
+  indore: ['Vijay Nagar', 'Palasia', 'Sapna Sangeeta', 'South Tukoganj', 'Race Course Road', 'Scheme 78', 'AB Road'],
+  surat: ['Ring Road', 'Vesu', 'Adajan', 'Athwa', 'Piplod', 'Katargam', 'Varachha', 'Udhna'],
+  vadodara: ['Alkapuri', 'Fatehgunj', 'Sayajigunj', 'Manjalpur', 'Gotri', 'Race Course', 'Vadiwadi'],
+  nagpur: ['Dharampeth', 'Civil Lines', 'Sitabuldi', 'Sadar', 'Wardha Road', 'Manish Nagar', 'Hingna', 'Butibori'],
+  visakhapatnam: ['Beach Road', 'Dwaraka Nagar', 'MVP Colony', 'Gajuwaka', 'Maddilapalem', 'Seethammadhara'],
+  bhopal: ['MP Nagar', 'Arera Colony', 'New Market', 'Shahpura', 'Hoshangabad Road', 'Kolar Road', 'Habibganj'],
+  coimbatore: ['RS Puram', 'Gandhipuram', 'Peelamedu', 'Saravanampatti', 'Singanallur', 'Town Hall', 'Race Course'],
+  patna: ['Boring Road', 'Patna Junction', 'Kankarbagh', 'Ashok Rajpath', 'Bailey Road', 'Danapur', 'Rajendra Nagar']
+}
+
+// Get areas/localities for a specific city
+export const getAreasForCity = (cityName) => {
+  if (!cityName) return []
+  const slug = cityName.toLowerCase().replace(/\s+/g, '-').replace(/-/g, '')
+  const normalizedSlug = cityName.toLowerCase().replace(/\s+/g, '').replace(/-/g, '')
+  
+  // Check curated areas first
+  const key = Object.keys(cityAreas).find(k => 
+    k === slug || k === normalizedSlug || k.replace(/-/g, '') === normalizedSlug
+  )
+  
+  if (key) {
+    return cityAreas[key]
+  }
+  
+  // Fallback to generated sub-locations
+  const subLocations = getSubLocationsForCity(cityName)
+  return subLocations.map(s => s.name)
+}

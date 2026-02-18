@@ -376,7 +376,8 @@ export const updateUserProfile = async (profileData) => {
 const PROFILES_KEY = 'advertiserProfiles'
 const USERS_KEY = 'localUsers'
 
-export const createProfile = (profileData) => {
+// Create or update a profile/ad
+export const createProfile = (profileData, adId = null) => {
   const user = getCurrentUser()
   if (!user) {
     throw new Error('User must be logged in to create a profile')
@@ -384,18 +385,27 @@ export const createProfile = (profileData) => {
 
   const profiles = JSON.parse(localStorage.getItem(PROFILES_KEY) || '[]')
 
-  // Check if user already has a profile
-  const existingProfileIndex = profiles.findIndex(p => p.userId === user.id)
+  // If adId is provided, update existing ad; otherwise check for existing profile
+  let existingProfileIndex = adId 
+    ? profiles.findIndex(p => p.id === adId && p.userId === user.id)
+    : profiles.findIndex(p => p.userId === user.id)
+
+  // Calculate expiry date (30 days from now)
+  const expiryDate = new Date()
+  expiryDate.setDate(expiryDate.getDate() + 30)
 
   const newProfile = {
     id: existingProfileIndex >= 0 ? profiles[existingProfileIndex].id : Date.now().toString(),
     userId: user.id,
     ...profileData,
+    status: profileData.status || 'active', // active, paused, expired
     createdAt: existingProfileIndex >= 0 ? profiles[existingProfileIndex].createdAt : new Date().toISOString(),
     updatedAt: new Date().toISOString(),
+    expiresAt: existingProfileIndex >= 0 ? profiles[existingProfileIndex].expiresAt : expiryDate.toISOString(),
     verified: true,
     rating: existingProfileIndex >= 0 ? profiles[existingProfileIndex].rating : 4.5,
     reviews: existingProfileIndex >= 0 ? profiles[existingProfileIndex].reviews : 0,
+    views: existingProfileIndex >= 0 ? profiles[existingProfileIndex].views : 0,
     responseTime: '< 30 min',
     availability: profileData.availability || 'Available'
   }
@@ -414,6 +424,100 @@ export const createProfile = (profileData) => {
   return newProfile
 }
 
+// Get all ads for a specific user
+export const getUserAds = (userId = null) => {
+  const user = userId ? { id: userId } : getCurrentUser()
+  if (!user) return []
+  
+  const profiles = JSON.parse(localStorage.getItem(PROFILES_KEY) || '[]')
+  return profiles.filter(p => p.userId === user.id)
+}
+
+// Get current user's ads
+export const getCurrentUserAds = () => {
+  return getUserAds()
+}
+
+// Update ad status (active, paused)
+export const updateAdStatus = (adId, status) => {
+  const user = getCurrentUser()
+  if (!user) {
+    throw new Error('User must be logged in to update ad status')
+  }
+
+  const profiles = JSON.parse(localStorage.getItem(PROFILES_KEY) || '[]')
+  const adIndex = profiles.findIndex(p => p.id === adId && p.userId === user.id)
+
+  if (adIndex === -1) {
+    throw new Error('Ad not found')
+  }
+
+  profiles[adIndex].status = status
+  profiles[adIndex].updatedAt = new Date().toISOString()
+
+  localStorage.setItem(PROFILES_KEY, JSON.stringify(profiles))
+  window.dispatchEvent(new CustomEvent('profilesUpdated', { detail: profiles[adIndex] }))
+
+  return profiles[adIndex]
+}
+
+// Delete an ad
+export const deleteAd = (adId) => {
+  const user = getCurrentUser()
+  if (!user) {
+    throw new Error('User must be logged in to delete an ad')
+  }
+
+  const profiles = JSON.parse(localStorage.getItem(PROFILES_KEY) || '[]')
+  const updatedProfiles = profiles.filter(p => !(p.id === adId && p.userId === user.id))
+  
+  localStorage.setItem(PROFILES_KEY, JSON.stringify(updatedProfiles))
+  window.dispatchEvent(new CustomEvent('profilesUpdated', { detail: { deleted: adId } }))
+  
+  return { success: true }
+}
+
+// Duplicate an ad
+export const duplicateAd = (adId) => {
+  const user = getCurrentUser()
+  if (!user) {
+    throw new Error('User must be logged in to duplicate an ad')
+  }
+
+  const profiles = JSON.parse(localStorage.getItem(PROFILES_KEY) || '[]')
+  const originalAd = profiles.find(p => p.id === adId && p.userId === user.id)
+
+  if (!originalAd) {
+    throw new Error('Ad not found')
+  }
+
+  const expiryDate = new Date()
+  expiryDate.setDate(expiryDate.getDate() + 30)
+
+  const duplicatedAd = {
+    ...originalAd,
+    id: Date.now().toString(),
+    name: `${originalAd.name} (Copy)`,
+    status: 'active',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    expiresAt: expiryDate.toISOString(),
+    views: 0
+  }
+
+  profiles.push(duplicatedAd)
+  localStorage.setItem(PROFILES_KEY, JSON.stringify(profiles))
+  window.dispatchEvent(new CustomEvent('profilesUpdated', { detail: duplicatedAd }))
+
+  return duplicatedAd
+}
+
+// Get ad by ID
+export const getAdById = (adId) => {
+  const profiles = JSON.parse(localStorage.getItem(PROFILES_KEY) || '[]')
+  return profiles.find(p => p.id === adId)
+}
+
 export const getProfile = (userId) => {
   const profiles = JSON.parse(localStorage.getItem(PROFILES_KEY) || '[]')
   return profiles.find(p => p.userId === userId)
@@ -426,7 +530,9 @@ export const getCurrentUserProfile = () => {
 }
 
 export const getAllProfiles = () => {
-  return JSON.parse(localStorage.getItem(PROFILES_KEY) || '[]')
+  // Only return active profiles for public display
+  const profiles = JSON.parse(localStorage.getItem(PROFILES_KEY) || '[]')
+  return profiles.filter(p => p.status !== 'paused' && p.status !== 'expired')
 }
 
 export const getProfilesByLocation = (location) => {
@@ -500,4 +606,131 @@ export const searchProfiles = (filters) => {
   }
   
   return profiles
+}
+
+// ============ COIN MANAGEMENT ============
+
+const COIN_PACKAGES = [
+  { id: 'pack-50', coins: 50, price: 99, popular: false },
+  { id: 'pack-100', coins: 100, price: 179, popular: false, savings: '10%' },
+  { id: 'pack-250', coins: 250, price: 399, popular: true, savings: '20%' },
+  { id: 'pack-500', coins: 500, price: 699, popular: false, savings: '30%' },
+  { id: 'pack-1000', coins: 1000, price: 1199, popular: false, savings: '40%' }
+]
+
+const TRANSACTIONS_KEY = 'coinTransactions'
+const UPI_ID = 'YOUR_UPI_ID@upi' // Replace with actual UPI ID
+
+// Get coin packages
+export const getCoinPackages = () => COIN_PACKAGES
+
+// Get UPI ID for payment
+export const getUPIId = () => UPI_ID
+
+// Get user's coin balance
+export const getUserCoins = () => {
+  const user = getCurrentUser()
+  if (!user) return 0
+  
+  const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]')
+  const currentUser = users.find(u => u.id === user.id)
+  return currentUser?.coins || 0
+}
+
+// Add coins to user account
+export const addCoins = (amount, transactionId, packageId) => {
+  const user = getCurrentUser()
+  if (!user) throw new Error('User not logged in')
+  
+  const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]')
+  const userIndex = users.findIndex(u => u.id === user.id)
+  
+  if (userIndex === -1) throw new Error('User not found')
+  
+  // Add coins
+  users[userIndex].coins = (users[userIndex].coins || 0) + amount
+  localStorage.setItem(USERS_KEY, JSON.stringify(users))
+  
+  // Update current user in session
+  const updatedUser = { ...user, coins: users[userIndex].coins }
+  localStorage.setItem('currentUser', JSON.stringify(updatedUser))
+  
+  // Record transaction
+  const transactions = JSON.parse(localStorage.getItem(TRANSACTIONS_KEY) || '[]')
+  transactions.push({
+    id: Date.now().toString(),
+    oderId: `TXN${Date.now()}`,
+    userId: user.id,
+    type: 'credit',
+    amount,
+    packageId,
+    transactionId,
+    status: 'completed',
+    createdAt: new Date().toISOString()
+  })
+  localStorage.setItem(TRANSACTIONS_KEY, JSON.stringify(transactions))
+  
+  // Dispatch event for UI update
+  window.dispatchEvent(new CustomEvent('coinsUpdated', { detail: { coins: users[userIndex].coins } }))
+  
+  return users[userIndex].coins
+}
+
+// Deduct coins from user account
+export const deductCoins = (amount, reason = 'ad_promotion') => {
+  const user = getCurrentUser()
+  if (!user) throw new Error('User not logged in')
+  
+  const currentCoins = getUserCoins()
+  if (currentCoins < amount) throw new Error('Insufficient coins')
+  
+  const users = JSON.parse(localStorage.getItem(USERS_KEY) || '[]')
+  const userIndex = users.findIndex(u => u.id === user.id)
+  
+  if (userIndex === -1) throw new Error('User not found')
+  
+  // Deduct coins
+  users[userIndex].coins = currentCoins - amount
+  localStorage.setItem(USERS_KEY, JSON.stringify(users))
+  
+  // Update current user in session
+  const updatedUser = { ...user, coins: users[userIndex].coins }
+  localStorage.setItem('currentUser', JSON.stringify(updatedUser))
+  
+  // Record transaction
+  const transactions = JSON.parse(localStorage.getItem(TRANSACTIONS_KEY) || '[]')
+  transactions.push({
+    id: Date.now().toString(),
+    userId: user.id,
+    type: 'debit',
+    amount,
+    reason,
+    status: 'completed',
+    createdAt: new Date().toISOString()
+  })
+  localStorage.setItem(TRANSACTIONS_KEY, JSON.stringify(transactions))
+  
+  // Dispatch event for UI update
+  window.dispatchEvent(new CustomEvent('coinsUpdated', { detail: { coins: users[userIndex].coins } }))
+  
+  return users[userIndex].coins
+}
+
+// Get user's transaction history
+export const getCoinTransactions = () => {
+  const user = getCurrentUser()
+  if (!user) return []
+  
+  const transactions = JSON.parse(localStorage.getItem(TRANSACTIONS_KEY) || '[]')
+  return transactions.filter(t => t.userId === user.id).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+}
+
+// Generate UPI payment link
+export const generateUPILink = (amount, txnId) => {
+  const upiId = getUPIId()
+  const name = 'Trusted Escort'
+  const note = `Coin Purchase - ${txnId}`
+  
+  // UPI deep link format
+  return `upi://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&tn=${encodeURIComponent(note)}&cu=INR`
 }

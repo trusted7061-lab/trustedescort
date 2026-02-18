@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { getAllProfiles } from '../services/profileService'
 import { defaultEscorts } from '../services/defaultEscorts'
 import { setAllEscorts as updateSharedEscorts } from '../services/escortData'
-import { getAllCities } from '../services/locationsData'
+import { getAllCities, getAreasForCity } from '../services/locationsData'
 
 // City-specific SEO data for unique H1 headers and descriptions
 const cityData = {
@@ -277,6 +277,12 @@ function Escorts() {
 
   // Get all locations dynamically from centralized data
   const locations = useMemo(() => ['all', ...getAllCities()], [])
+  
+  // Get sub-locations (areas/localities) for the current city filter
+  const subLocations = useMemo(() => {
+    if (locationFilter === 'all') return []
+    return getAreasForCity(locationFilter)
+  }, [locationFilter])
 
   const filteredEscorts = useMemo(() => {
     return allEscorts.filter((escort) => {
@@ -578,6 +584,42 @@ function Escorts() {
                         </span>
                       </motion.div>
                     </Link>
+                    
+                    {/* Sub-locations/Areas when a city is selected */}
+                    {locationFilter !== 'all' && subLocations.length > 0 && !locationSearch && (
+                      <>
+                        <div className="px-2 py-1.5 mt-2">
+                          <span className="text-xs font-semibold text-gold/70 uppercase tracking-wider">
+                            Areas in {locationFilter}
+                          </span>
+                        </div>
+                        {subLocations
+                          .filter(area => area.toLowerCase().includes(locationSearch.toLowerCase()))
+                          .slice(0, 12)
+                          .map((area) => (
+                            <Link
+                              key={area}
+                              to={`/escorts/in/${locationFilter.toLowerCase().replace(/\s+/g, '-')}-${area.toLowerCase().replace(/\s+/g, '-')}`}
+                              onClick={() => setLocationSearch('')}
+                            >
+                              <motion.div
+                                whileHover={{ x: 5 }}
+                                className="flex items-center cursor-pointer group p-2 rounded-lg hover:bg-dark-hover transition-colors"
+                              >
+                                <div className="w-1.5 h-1.5 rounded-full mr-3 bg-gray-600" />
+                                <span className="text-sm text-gray-400 group-hover:text-gold transition-colors">
+                                  {area}
+                                </span>
+                              </motion.div>
+                            </Link>
+                          ))}
+                        <div className="px-2 py-1.5 mt-2">
+                          <span className="text-xs font-semibold text-gold/70 uppercase tracking-wider">
+                            Other Cities
+                          </span>
+                        </div>
+                      </>
+                    )}
                     
                     {/* Filtered cities */}
                     {locations
