@@ -20,6 +20,7 @@ import ForgotPassword from './pages/ForgotPassword'
 import ResendConfirmation from './pages/ResendConfirmation'
 import AdvertiserSignup from './pages/AdvertiserSignup'
 import AdvertiserDashboard from './pages/AdvertiserDashboard'
+import PostRequirement from './pages/PostRequirement'
 import Location from './pages/Location'
 import FAQ from './pages/FAQ'
 import PrivacyPolicy from './pages/PrivacyPolicy'
@@ -71,6 +72,7 @@ function App() {
               <Route path="/resend-confirmation" element={<ResendConfirmation />} />
               <Route path="/advertiser-signup" element={<AdvertiserSignup />} />
               <Route path="/advertiser-dashboard" element={<AdvertiserDashboard />} />
+              <Route path="/post-requirement" element={<PostRequirement />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>

@@ -153,6 +153,11 @@ function Navbar() {
                           👤 My Account
                         </div>
                       </Link>
+                      <Link to="/post-requirement" onClick={() => setShowUserMenu(false)}>
+                        <div className="px-4 py-3 hover:bg-dark-hover text-gray-300 hover:text-gold transition text-sm">
+                          📝 Post Requirement
+                        </div>
+                      </Link>
                       <Link to="/advertiser-dashboard" onClick={() => setShowUserMenu(false)}>
                         <div className="px-4 py-3 hover:bg-dark-hover text-gray-300 hover:text-gold transition text-sm">
                           📊 Dashboard
@@ -241,6 +246,14 @@ function Navbar() {
             ))}
             {currentUser ? (
               <>
+                <Link to="/post-requirement" onClick={() => setIsOpen(false)}>
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    className="w-full px-4 py-2 text-sm text-gold border border-gold/50 rounded-lg hover:bg-gold/10 transition font-sans"
+                  >
+                    📝 Post Requirement
+                  </motion.button>
+                </Link>
                 <Link to="/advertiser-dashboard" onClick={() => setIsOpen(false)}>
                   <motion.button
                     whileHover={{ scale: 1.02 }}

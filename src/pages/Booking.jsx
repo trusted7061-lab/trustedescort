@@ -74,10 +74,10 @@ function Booking() {
   const paymentMethods = [
     { value: 'Cash', label: 'Cash Payment', qrCode: null },
     { value: 'Bank Transfer', label: 'Bank Transfer', qrCode: null },
-    { value: 'UPI', label: 'UPI Payment', qrCode: 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=upi://pay?pa=trustedescort@upi&pn=TrustedEscort&cu=INR' },
-    { value: 'Paytm', label: 'Paytm', qrCode: 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=paytm://pay?pa=9876543210&pn=TrustedEscort' },
-    { value: 'Google Pay', label: 'Google Pay', qrCode: 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=upi://pay?pa=trustedescort@gpay&pn=TrustedEscort&cu=INR' },
-    { value: 'PhonePe', label: 'PhonePe', qrCode: 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=upi://pay?pa=trustedescort@ybl&pn=TrustedEscort&cu=INR' },
+    { value: 'UPI', label: 'UPI Payment', qrCode: 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=upi://pay?pa=7980393546@ybl&pn=TrustedEscort&cu=INR' },
+    { value: 'Paytm', label: 'Paytm', qrCode: 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=upi://pay?pa=7980393546@ybl&pn=TrustedEscort&cu=INR' },
+    { value: 'Google Pay', label: 'Google Pay', qrCode: 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=upi://pay?pa=7980393546@ybl&pn=TrustedEscort&cu=INR' },
+    { value: 'PhonePe', label: 'PhonePe', qrCode: 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=upi://pay?pa=7980393546@ybl&pn=TrustedEscort&cu=INR' },
   ]
 
   const calculateEstimatedPrice = (serviceType, duration) => {

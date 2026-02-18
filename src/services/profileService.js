@@ -385,10 +385,11 @@ export const createProfile = (profileData, adId = null) => {
 
   const profiles = JSON.parse(localStorage.getItem(PROFILES_KEY) || '[]')
 
-  // If adId is provided, update existing ad; otherwise check for existing profile
+  // Only update existing ad if adId is explicitly provided
+  // Otherwise always create a new ad (allows multiple ads per user)
   let existingProfileIndex = adId 
     ? profiles.findIndex(p => p.id === adId && p.userId === user.id)
-    : profiles.findIndex(p => p.userId === user.id)
+    : -1 // Always create new when no adId provided
 
   // Calculate expiry date (30 days from now)
   const expiryDate = new Date()
@@ -619,7 +620,7 @@ const COIN_PACKAGES = [
 ]
 
 const TRANSACTIONS_KEY = 'coinTransactions'
-const UPI_ID = 'YOUR_UPI_ID@upi' // Replace with actual UPI ID
+const UPI_ID = '7980393546@ybl'
 
 // Get coin packages
 export const getCoinPackages = () => COIN_PACKAGES
@@ -733,4 +734,116 @@ export const generateUPILink = (amount, txnId) => {
   
   // UPI deep link format
   return `upi://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&tn=${encodeURIComponent(note)}&cu=INR`
+}
+
+// ============ USER REQUIREMENTS ============
+
+const REQUIREMENTS_KEY = 'userRequirements'
+
+// Create a new requirement
+export const createRequirement = (requirementData) => {
+  const user = getCurrentUser()
+  if (!user) {
+    throw new Error('You must be logged in to post a requirement')
+  }
+
+  const requirements = JSON.parse(localStorage.getItem(REQUIREMENTS_KEY) || '[]')
+  
+  const newRequirement = {
+    id: `req-${Date.now()}`,
+    userId: user.id,
+    userName: user.name || user.businessName || 'Anonymous',
+    userPhone: requirementData.showContact ? user.phone : null,
+    ...requirementData,
+    status: 'active', // active, fulfilled, expired
+    responses: 0,
+    views: 0,
+    createdAt: new Date().toISOString(),
+    expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString() // 7 days
+  }
+  
+  requirements.push(newRequirement)
+  localStorage.setItem(REQUIREMENTS_KEY, JSON.stringify(requirements))
+  
+  // Dispatch event
+  window.dispatchEvent(new CustomEvent('requirementsUpdated', { detail: newRequirement }))
+  
+  return newRequirement
+}
+
+// Get all active requirements
+export const getAllRequirements = () => {
+  const requirements = JSON.parse(localStorage.getItem(REQUIREMENTS_KEY) || '[]')
+  const now = new Date()
+  
+  // Filter out expired requirements and return active ones
+  return requirements
+    .filter(r => r.status === 'active' && new Date(r.expiresAt) > now)
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+}
+
+// Get current user's requirements
+export const getUserRequirements = () => {
+  const user = getCurrentUser()
+  if (!user) return []
+  
+  const requirements = JSON.parse(localStorage.getItem(REQUIREMENTS_KEY) || '[]')
+  return requirements
+    .filter(r => r.userId === user.id)
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+}
+
+// Update requirement status
+export const updateRequirementStatus = (reqId, status) => {
+  const user = getCurrentUser()
+  if (!user) return false
+  
+  const requirements = JSON.parse(localStorage.getItem(REQUIREMENTS_KEY) || '[]')
+  const index = requirements.findIndex(r => r.id === reqId && r.userId === user.id)
+  
+  if (index !== -1) {
+    requirements[index].status = status
+    requirements[index].updatedAt = new Date().toISOString()
+    localStorage.setItem(REQUIREMENTS_KEY, JSON.stringify(requirements))
+    window.dispatchEvent(new CustomEvent('requirementsUpdated'))
+    return true
+  }
+  return false
+}
+
+// Delete a requirement
+export const deleteRequirement = (reqId) => {
+  const user = getCurrentUser()
+  if (!user) return false
+  
+  const requirements = JSON.parse(localStorage.getItem(REQUIREMENTS_KEY) || '[]')
+  const filtered = requirements.filter(r => !(r.id === reqId && r.userId === user.id))
+  
+  if (filtered.length !== requirements.length) {
+    localStorage.setItem(REQUIREMENTS_KEY, JSON.stringify(filtered))
+    window.dispatchEvent(new CustomEvent('requirementsUpdated'))
+    return true
+  }
+  return false
+}
+
+// Get requirements by location
+export const getRequirementsByLocation = (location) => {
+  const requirements = getAllRequirements()
+  if (!location || location === 'all') return requirements
+  
+  return requirements.filter(r => 
+    r.location.toLowerCase() === location.toLowerCase()
+  )
+}
+
+// Increment view count
+export const incrementRequirementViews = (reqId) => {
+  const requirements = JSON.parse(localStorage.getItem(REQUIREMENTS_KEY) || '[]')
+  const index = requirements.findIndex(r => r.id === reqId)
+  
+  if (index !== -1) {
+    requirements[index].views = (requirements[index].views || 0) + 1
+    localStorage.setItem(REQUIREMENTS_KEY, JSON.stringify(requirements))
+  }
 }
