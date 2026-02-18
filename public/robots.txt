@@ -1,94 +1,52 @@
 # robots.txt for Trusted Escort
-# Last updated: 2026-02-12
+# Last updated: 2026-02-18
 
-# Allow all search engines to crawl the site
+# Allow all search engines
 User-agent: *
 Allow: /
 
-# Disallow authentication and admin pages from indexing
+# Main content pages (high priority)
+Allow: /escorts
+Allow: /escorts/in/*
+Allow: /location/*
+Allow: /booking
+Allow: /about
+Allow: /contact
+Allow: /faq
+
+# Disallow authentication & private pages
 Disallow: /signin
 Disallow: /register
 Disallow: /forgot-password
 Disallow: /resend-confirmation
+Disallow: /account
 Disallow: /advertiser-dashboard
+Disallow: /advertiser-signup
+Disallow: /post-requirement
+Disallow: /profile
 Disallow: /admin/
 Disallow: /api/
 
-# Allow location pages
-Allow: /location/*
-
-# Allow escorts pages
-Allow: /escorts
-
-# Allow companion profiles
-Allow: /companion/*
+# Crawl-delay for polite crawling
+Crawl-delay: 1
 
 # Sitemap location
 Sitemap: https://www.trustedescort.com/sitemap.xml
 
-# llms.txt for AI crawlers
-# https://www.trustedescort.com/llms.txt
+# For AI crawlers
+# llms.txt: https://www.trustedescort.com/llms.txt
 
-# Crawl-delay for all bots
-Crawl-delay: 1
-
-# Specific rules for Google
+# Google specific
 User-agent: Googlebot
 Allow: /
-Crawl-delay: 0.5
+Crawl-delay: 0
 
-# Specific rules for Bing
+# Bing
 User-agent: Bingbot
 Allow: /
 Crawl-delay: 1
 
-# Specific rules for Yandex
+# Yandex
 User-agent: Yandex
 Allow: /
-Crawl-delay: 1
-
-# AI Crawlers
-User-agent: GPTBot
-Allow: /
 Crawl-delay: 2
-
-User-agent: ChatGPT-User
-Allow: /
-
-User-agent: CCBot
-Allow: /
-Crawl-delay: 2
-
-User-agent: anthropic-ai
-Allow: /
-Crawl-delay: 2
-
-User-agent: Claude-Web
-Allow: /
-Crawl-delay: 2
-
-User-agent: Google-Extended
-Allow: /
-Crawl-delay: 2
-
-# Block bad bots and scrapers
-User-agent: AhrefsBot
-Disallow: /
-
-User-agent: SEMrushBot
-Disallow: /
-
-User-agent: MJ12bot
-Disallow: /
-
-User-agent: DotBot
-Disallow: /
-
-User-agent: SemrushBot
-Disallow: /
-
-User-agent: Mediatoolkitbot
-Disallow: /
-
-User-agent: DataForSeoBot
-Disallow: /
