@@ -85,7 +85,7 @@ function About() {
             "mainEntity": {
               "@type": "Organization",
               "name": "Trusted Escort",
-              "url": "https://www.trustedescort.com",
+              "url": "https://www.trustedescort.in",
               "description": "Premium escort service providing sophisticated companionship across major Indian cities.",
               "foundingDate": "2020",
               "slogan": "Exclusive Companionship, Redefined"

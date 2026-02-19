@@ -219,14 +219,14 @@ function Booking() {
         <meta name="title" content="Book an Escort | Trusted Escort" />
         <meta name="description" content="Book your exclusive escort experience today. Easy online booking for premium escort services. Available 24/7 across major Indian cities." />
         <meta name="keywords" content="book escort, escort booking, schedule escort, hire escort, premium escort booking India" />
-        <link rel="canonical" href="https://www.trustedescort.com/booking" />
+        <link rel="canonical" href="https://www.trustedescort.in/booking" />
         
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.trustedescort.com/booking" />
+        <meta property="og:url" content="https://www.trustedescort.in/booking" />
         <meta property="og:title" content="Book an Escort | Trusted Escort" />
         <meta property="og:description" content="Book your exclusive escort experience today. Easy online booking for premium escort services." />
-        <meta property="og:image" content="https://www.trustedescort.com/og-image.jpg" />
+        <meta property="og:image" content="https://www.trustedescort.in/og-image.jpg" />
         <meta property="og:locale" content="en_IN" />
         <meta property="og:site_name" content="Trusted Escort" />
         
