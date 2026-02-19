@@ -152,23 +152,23 @@ function Home() {
         <meta name="title" content="Trusted Escort | Exclusive Escortship, Redefined" />
         <meta name="description" content="Discreet, sophisticated, unforgettable escortship services. Premium escort companions in Mumbai, Delhi, Bangalore, and major Indian cities. Available 24/7." />
         <meta name="keywords" content="escort service, premium escorts, luxury companionship, elite escorts, trusted escort, high-class escorts India, Mumbai escorts, Delhi escorts, Bangalore escorts" />
-        <link rel="canonical" href="https://www.trustedescort.com/" />
+        <link rel="canonical" href="https://www.trustedescort.in/" />
         
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.trustedescort.com/" />
+        <meta property="og:url" content="https://www.trustedescort.in/" />
         <meta property="og:title" content="Trusted Escort | Exclusive Escortship, Redefined" />
         <meta property="og:description" content="Discreet, sophisticated, unforgettable escortship services. Premium escort companions available 24/7." />
-        <meta property="og:image" content="https://www.trustedescort.com/og-image.jpg" />
+        <meta property="og:image" content="https://www.trustedescort.in/og-image.jpg" />
         <meta property="og:locale" content="en_IN" />
         <meta property="og:site_name" content="Trusted Escort" />
         
         {/* Twitter */}
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://www.trustedescort.com/" />
+        <meta property="twitter:url" content="https://www.trustedescort.in/" />
         <meta property="twitter:title" content="Trusted Escort | Exclusive Escortship, Redefined" />
         <meta property="twitter:description" content="Discreet, sophisticated, unforgettable escortship services. Premium escort companions available 24/7." />
-        <meta property="twitter:image" content="https://www.trustedescort.com/og-image.jpg" />
+        <meta property="twitter:image" content="https://www.trustedescort.in/og-image.jpg" />
         
         {/* Additional SEO */}
         <meta name="robots" content="index, follow" />
@@ -187,8 +187,8 @@ function Home() {
             "@context": "https://schema.org",
             "@type": "Organization",
             "name": "Trusted Escort",
-            "url": "https://www.trustedescort.com",
-            "logo": "https://www.trustedescort.com/logo.png",
+            "url": "https://www.trustedescort.in",
+            "logo": "https://www.trustedescort.in/logo.png",
             "description": "Premium escort service providing discreet, sophisticated companionship across major Indian cities. Elite escorts available 24/7.",
             "address": {
               "@type": "PostalAddress",
@@ -202,8 +202,8 @@ function Home() {
               "hoursAvailable": "Mo-Su 00:00-23:59"
             },
             "sameAs": [
-              "https://www.trustedescort.com/about",
-              "https://www.trustedescort.com/contact"
+              "https://www.trustedescort.in/about",
+              "https://www.trustedescort.in/contact"
             ]
           })}
         </script>

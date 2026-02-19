@@ -199,7 +199,7 @@ function Terms() {
       title: '16. Contact Information',
       content: [
         'For questions about these Terms and Conditions:',
-        '• Email: info@trustedescort.com',
+        '• Email: info@trustedescort.in',
         '• WhatsApp: +91 1234567890',
         '• Address: Mumbai, Maharashtra, India',
         'We will respond to inquiries within 48 hours.',
@@ -215,23 +215,23 @@ function Terms() {
         <meta name="title" content="Terms and Conditions | Trusted Escort" />
         <meta name="description" content="Read our terms and conditions governing the use of Trusted Escort services. Understand your rights and obligations." />
         <meta name="keywords" content="escort terms, terms and conditions, service agreement, escort policy, usage terms" />
-        <link rel="canonical" href="https://www.trustedescort.com/terms" />
+        <link rel="canonical" href="https://www.trustedescort.in/terms" />
         
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.trustedescort.com/terms" />
+        <meta property="og:url" content="https://www.trustedescort.in/terms" />
         <meta property="og:title" content="Terms and Conditions | Trusted Escort" />
         <meta property="og:description" content="Read our terms and conditions governing the use of Trusted Escort services." />
-        <meta property="og:image" content="https://www.trustedescort.com/og-image.jpg" />
+        <meta property="og:image" content="https://www.trustedescort.in/og-image.jpg" />
         <meta property="og:locale" content="en_IN" />
         <meta property="og:site_name" content="Trusted Escort" />
         
         {/* Twitter */}
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://www.trustedescort.com/terms" />
+        <meta property="twitter:url" content="https://www.trustedescort.in/terms" />
         <meta property="twitter:title" content="Terms and Conditions | Trusted Escort" />
         <meta property="twitter:description" content="Read our terms and conditions governing the use of Trusted Escort services." />
-        <meta property="twitter:image" content="https://www.trustedescort.com/og-image.jpg" />
+        <meta property="twitter:image" content="https://www.trustedescort.in/og-image.jpg" />
         
         {/* Additional SEO */}
         <meta name="robots" content="index, follow" />
@@ -244,12 +244,12 @@ function Terms() {
             "@context": "https://schema.org",
             "@type": "WebPage",
             "name": "Terms and Conditions",
-            "url": "https://www.trustedescort.com/terms",
+            "url": "https://www.trustedescort.in/terms",
             "description": "Read our terms and conditions governing the use of Trusted Escort services. Understand your rights and obligations.",
             "publisher": {
               "@type": "Organization",
               "name": "Trusted Escort",
-              "url": "https://www.trustedescort.com"
+              "url": "https://www.trustedescort.in"
             }
           })}
         </script>
@@ -264,13 +264,13 @@ function Terms() {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "Home",
-                "item": "https://www.trustedescort.com"
+                "item": "https://www.trustedescort.in"
               },
               {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "Terms and Conditions",
-                "item": "https://www.trustedescort.com/terms"
+                "item": "https://www.trustedescort.in/terms"
               }
             ]
           })}

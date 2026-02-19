@@ -51,23 +51,23 @@ function About() {
         <meta name="title" content="About Trusted Escort | Our Story & Mission" />
         <meta name="description" content="Learn about Trusted Escort's commitment to discretion, excellence, and unforgettable experiences. Premium escort services with absolute confidentiality." />
         <meta name="keywords" content="about trusted escort, escort agency, premium escort service, luxury companionship, discreet escort service, elite escort agency India" />
-        <link rel="canonical" href="https://www.trustedescort.com/about" />
+        <link rel="canonical" href="https://www.trustedescort.in/about" />
         
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.trustedescort.com/about" />
+        <meta property="og:url" content="https://www.trustedescort.in/about" />
         <meta property="og:title" content="About Trusted Escort | Our Story & Mission" />
         <meta property="og:description" content="Learn about Trusted Escort's commitment to discretion, excellence, and unforgettable experiences." />
-        <meta property="og:image" content="https://www.trustedescort.com/og-image.jpg" />
+        <meta property="og:image" content="https://www.trustedescort.in/og-image.jpg" />
         <meta property="og:locale" content="en_IN" />
         <meta property="og:site_name" content="Trusted Escort" />
         
         {/* Twitter */}
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://www.trustedescort.com/about" />
+        <meta property="twitter:url" content="https://www.trustedescort.in/about" />
         <meta property="twitter:title" content="About Trusted Escort | Our Story & Mission" />
         <meta property="twitter:description" content="Learn about Trusted Escort's commitment to discretion, excellence, and unforgettable experiences." />
-        <meta property="twitter:image" content="https://www.trustedescort.com/og-image.jpg" />
+        <meta property="twitter:image" content="https://www.trustedescort.in/og-image.jpg" />
         
         {/* Additional SEO */}
         <meta name="robots" content="index, follow" />
@@ -80,7 +80,7 @@ function About() {
             "@context": "https://schema.org",
             "@type": "AboutPage",
             "name": "About Trusted Escort",
-            "url": "https://www.trustedescort.com/about",
+            "url": "https://www.trustedescort.in/about",
             "description": "Learn about Trusted Escort's commitment to discretion, excellence, and unforgettable experiences. Premium escort services with absolute confidentiality.",
             "mainEntity": {
               "@type": "Organization",
@@ -103,13 +103,13 @@ function About() {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "Home",
-                "item": "https://www.trustedescort.com"
+                "item": "https://www.trustedescort.in"
               },
               {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "About",
-                "item": "https://www.trustedescort.com/about"
+                "item": "https://www.trustedescort.in/about"
               }
             ]
           })}

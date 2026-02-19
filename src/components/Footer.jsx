@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 
 function Footer() {
-  const emailLink = 'mailto:info@trustedescort.com'
+  const emailLink = 'mailto:info@trustedescort.in'
   const whatsappLink = 'https://wa.me/1234567890'
   const location = useLocation()
   const isLocationPage = location.pathname.startsWith('/location/')
@@ -236,7 +236,7 @@ function Footer() {
             <h4 className="font-serif text-sm font-bold text-gold mb-4">Contact</h4>
             <div className="space-y-3">
               <a href={emailLink} className="text-sm text-gray-400 hover:text-gold transition-colors">
-                info@trustedescort.com
+                info@trustedescort.in
               </a>
               <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-sm text-gray-400 hover:text-gold transition-colors">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">

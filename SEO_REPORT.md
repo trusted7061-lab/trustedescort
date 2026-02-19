@@ -250,7 +250,7 @@ Updated main HTML file with:
 ## ⚠️ Important Notes
 
 ### Domain Configuration
-- Replace `www.trustedescort.com` in all files with your actual domain
+- Replace `www.trustedescort.in` in all files with your actual domain
 - Files to update:
   - sitemap.xml
   - All page meta tags (canonical URLs)

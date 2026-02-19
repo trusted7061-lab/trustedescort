@@ -261,23 +261,23 @@ function FAQ() {
         <meta name="title" content="FAQ - Frequently Asked Questions | Trusted Escort" />
         <meta name="description" content="Find answers to frequently asked questions about our premium escort services, booking process, privacy, payment, and more. Get instant answers." />
         <meta name="keywords" content="escort FAQ, escort questions, escort booking help, companion service questions, escort privacy, escort rates" />
-        <link rel="canonical" href="https://www.trustedescort.com/faq" />
+        <link rel="canonical" href="https://www.trustedescort.in/faq" />
         
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.trustedescort.com/faq" />
+        <meta property="og:url" content="https://www.trustedescort.in/faq" />
         <meta property="og:title" content="FAQ - Frequently Asked Questions | Trusted Escort" />
-        <meta property="og:description" content="Find answers to frequently asked questions about our premium escort services." />
-        <meta property="og:image" content="https://www.trustedescort.com/og-image.jpg" />
+        <meta property="og:description" content="Read our frequently asked questions about escort services." />
+        <meta property="og:image" content="https://www.trustedescort.in/og-image.jpg" />
         <meta property="og:locale" content="en_IN" />
         <meta property="og:site_name" content="Trusted Escort" />
         
         {/* Twitter */}
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://www.trustedescort.com/faq" />
+        <meta property="twitter:url" content="https://www.trustedescort.in/faq" />
         <meta property="twitter:title" content="FAQ - Frequently Asked Questions | Trusted Escort" />
         <meta property="twitter:description" content="Find answers to frequently asked questions about our premium escort services." />
-        <meta property="twitter:image" content="https://www.trustedescort.com/og-image.jpg" />
+        <meta property="twitter:image" content="https://www.trustedescort.in/og-image.jpg" />
         
         {/* Additional SEO */}
         <meta name="robots" content="index, follow" />
@@ -290,7 +290,7 @@ function FAQ() {
             "@context": "https://schema.org",
             "@type": "FAQPage",
             "name": "Frequently Asked Questions",
-            "url": "https://www.trustedescort.com/faq",
+            "url": "https://www.trustedescort.in/faq",
             "description": "Find answers to frequently asked questions about our premium escort services, booking process, privacy, payment, and more.",
             "mainEntity": displayedFAQs.map(q => ({
               "@type": "Question",
@@ -313,13 +313,13 @@ function FAQ() {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "Home",
-                "item": "https://www.trustedescort.com"
+                "item": "https://www.trustedescort.in"
               },
               {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "FAQ",
-                "item": "https://www.trustedescort.com/faq"
+                "item": "https://www.trustedescort.in/faq"
               }
             ]
           })}

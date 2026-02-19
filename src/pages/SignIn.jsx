@@ -233,7 +233,7 @@ function SignIn() {
         <meta name="title" content="Sign In | Trusted Escort" />
         <meta name="description" content="Sign in to your Trusted Escort account. Access your bookings, messages, and exclusive features." />
         <meta name="keywords" content="escort login, trusted escort sign in, account login, escort member area" />
-        <link rel="canonical" href="https://www.trustedescort.com/signin" />
+        <link rel="canonical" href="https://www.trustedescort.in/signin" />
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
 

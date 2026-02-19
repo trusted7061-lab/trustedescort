@@ -15,7 +15,7 @@ if (cityMatch) {
   });
 }
 
-const SITE_URL = 'https://www.trustedescort.com';
+const SITE_URL = 'https://www.trustedescort.in';
 const TODAY = new Date().toISOString().split('T')[0];
 
 let xml = `<?xml version="1.0" encoding="UTF-8"?>

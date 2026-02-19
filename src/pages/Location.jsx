@@ -659,11 +659,11 @@ function Location() {
         <meta name="title" content={`${currentCity.title} | Trusted Escort`} />
         <meta name="description" content={currentCity.description} />
         <meta name="keywords" content={`${currentCity.name} escorts, ${currentCity.name} escort service, premium escorts ${currentCity.name}, elite escorts ${currentCity.name}, luxury companionship ${currentCity.name}, ${currentCity.name} companion services`} />
-        <link rel="canonical" href={`https://www.trustedescort.com/location/${normalizedCity}`} />
+        <link rel="canonical" href={`https://www.trustedescort.in/location/${normalizedCity}`} />
         
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content={`https://www.trustedescort.com/location/${normalizedCity}`} />
+        <meta property="og:url" content={`https://www.trustedescort.in/location/${normalizedCity}`} />
         <meta property="og:title" content={`${currentCity.title} | Trusted Escort`} />
         <meta property="og:description" content={currentCity.description} />
         <meta property="og:image" content={currentCity.image} />
@@ -672,7 +672,7 @@ function Location() {
         
         {/* Twitter */}
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content={`https://www.trustedescort.com/location/${normalizedCity}`} />
+        <meta property="twitter:url" content={`https://www.trustedescort.in/location/${normalizedCity}`} />
         <meta property="twitter:title" content={`${currentCity.title} | Trusted Escort`} />
         <meta property="twitter:description" content={currentCity.description} />
         <meta property="twitter:image" content={currentCity.image} />
@@ -694,7 +694,7 @@ function Location() {
             "provider": {
               "@type": "Organization",
               "name": "Trusted Escort",
-              "url": "https://www.trustedescort.com"
+              "url": "https://www.trustedescort.in"
             },
             "areaServed": {
               "@type": "City",
@@ -704,7 +704,7 @@ function Location() {
             "serviceType": "Escort Service",
             "availableChannel": {
               "@type": "ServiceChannel",
-              "serviceUrl": `https://www.trustedescort.com/location/${normalizedCity}`
+              "serviceUrl": `https://www.trustedescort.in/location/${normalizedCity}`
             }
           })}
         </script>
@@ -735,19 +735,19 @@ function Location() {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "Home",
-                "item": "https://www.trustedescort.com"
+                "item": "https://www.trustedescort.in"
               },
               {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "Locations",
-                "item": "https://www.trustedescort.com/escorts"
+                "item": "https://www.trustedescort.in/escorts"
               },
               {
                 "@type": "ListItem",
                 "position": 3,
                 "name": currentCity.name,
-                "item": `https://www.trustedescort.com/location/${normalizedCity}`
+                "item": `https://www.trustedescort.in/location/${normalizedCity}`
               }
             ]
           })}

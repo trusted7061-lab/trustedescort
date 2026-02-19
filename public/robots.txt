@@ -31,10 +31,10 @@ Disallow: /api/
 Crawl-delay: 1
 
 # Sitemap location
-Sitemap: https://www.trustedescort.com/sitemap.xml
+Sitemap: https://www.trustedescort.in/sitemap.xml
 
 # For AI crawlers
-# llms.txt: https://www.trustedescort.com/llms.txt
+# llms.txt: https://www.trustedescort.in/llms.txt
 
 # Google specific
 User-agent: Googlebot

@@ -232,10 +232,10 @@ function Booking() {
         
         {/* Twitter */}
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://www.trustedescort.com/booking" />
+        <meta property="twitter:url" content="https://www.trustedescort.in/booking" />
         <meta property="twitter:title" content="Book an Escort | Trusted Escort" />
         <meta property="twitter:description" content="Book your exclusive escort experience today." />
-        <meta property="twitter:image" content="https://www.trustedescort.com/og-image.jpg" />
+        <meta property="twitter:image" content="https://www.trustedescort.in/og-image.jpg" />
         
         {/* Additional SEO */}
         <meta name="robots" content="index, follow" />

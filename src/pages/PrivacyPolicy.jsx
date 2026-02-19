@@ -88,7 +88,7 @@ function PrivacyPolicy() {
         '• Opt-out of marketing communications',
         '• Withdraw consent for data processing',
         '• File a complaint with relevant authorities',
-        'Contact us at info@trustedescort.com to exercise these rights.',
+        'Contact us at info@trustedescort.in to exercise these rights.',
       ],
     },
     {
@@ -125,7 +125,7 @@ function PrivacyPolicy() {
       title: '12. Contact Us',
       content: [
         'For questions, concerns, or requests regarding this Privacy Policy or your personal information, please contact us:',
-        '• Email: info@trustedescort.com',
+        '• Email: info@trustedescort.in',
         '• WhatsApp: +91 1234567890',
         '• Address: Mumbai, Maharashtra, India',
         'We will respond to all requests within 30 days.',
@@ -141,23 +141,23 @@ function PrivacyPolicy() {
         <meta name="title" content="Privacy Policy | Trusted Escort" />
         <meta name="description" content="Read our privacy policy to understand how we collect, use, and protect your personal information. Complete data protection and confidentiality guaranteed." />
         <meta name="keywords" content="escort privacy policy, data protection, confidentiality, privacy guarantee, secure escort service" />
-        <link rel="canonical" href="https://www.trustedescort.com/privacy-policy" />
+        <link rel="canonical" href="https://www.trustedescort.in/privacy-policy" />
         
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.trustedescort.com/privacy-policy" />
+        <meta property="og:url" content="https://www.trustedescort.in/privacy-policy" />
         <meta property="og:title" content="Privacy Policy | Trusted Escort" />
         <meta property="og:description" content="Read our privacy policy to understand how we protect your personal information." />
-        <meta property="og:image" content="https://www.trustedescort.com/og-image.jpg" />
+        <meta property="og:image" content="https://www.trustedescort.in/og-image.jpg" />
         <meta property="og:locale" content="en_IN" />
         <meta property="og:site_name" content="Trusted Escort" />
         
         {/* Twitter */}
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://www.trustedescort.com/privacy-policy" />
+        <meta property="twitter:url" content="https://www.trustedescort.in/privacy-policy" />
         <meta property="twitter:title" content="Privacy Policy | Trusted Escort" />
         <meta property="twitter:description" content="Read our privacy policy to understand how we protect your personal information." />
-        <meta property="twitter:image" content="https://www.trustedescort.com/og-image.jpg" />
+        <meta property="twitter:image" content="https://www.trustedescort.in/og-image.jpg" />
         
         {/* Additional SEO */}
         <meta name="robots" content="index, follow" />
@@ -170,12 +170,12 @@ function PrivacyPolicy() {
             "@context": "https://schema.org",
             "@type": "WebPage",
             "name": "Privacy Policy",
-            "url": "https://www.trustedescort.com/privacy-policy",
+            "url": "https://www.trustedescort.in/privacy-policy",
             "description": "Read our privacy policy to understand how we collect, use, and protect your personal information. Complete data protection and confidentiality guaranteed.",
             "publisher": {
               "@type": "Organization",
               "name": "Trusted Escort",
-              "url": "https://www.trustedescort.com"
+              "url": "https://www.trustedescort.in"
             }
           })}
         </script>
@@ -190,13 +190,13 @@ function PrivacyPolicy() {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "Home",
-                "item": "https://www.trustedescort.com"
+                "item": "https://www.trustedescort.in"
               },
               {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "Privacy Policy",
-                "item": "https://www.trustedescort.com/privacy-policy"
+                "item": "https://www.trustedescort.in/privacy-policy"
               }
             ]
           })}
