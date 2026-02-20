@@ -584,4 +584,55 @@ router.get('/admin/stats', adminMiddleware, async (req, res) => {
   }
 });
 
+// Get all users with their stats (Admin)
+router.get('/admin/users', adminMiddleware, async (req, res) => {
+  try {
+    const users = await User.find({ role: { $ne: 'admin' } })
+      .select('_id email phone displayName businessName createdAt')
+      .sort({ createdAt: -1 });
+    
+    // Get detailed stats for each user
+    const usersWithStats = await Promise.all(
+      users.map(async (user) => {
+        const wallet = await Wallet.findOne({ userId: user._id });
+        const ads = await AdPosting.find({ userId: user._id });
+        const pendingAds = ads.filter(a => a.adminApprovalStatus === 'pending');
+        const approvedAds = ads.filter(a => a.adminApprovalStatus === 'approved');
+        const rejectedAds = ads.filter(a => a.adminApprovalStatus === 'rejected');
+        
+        return {
+          id: user._id,
+          email: user.email,
+          phone: user.phone || 'N/A',
+          displayName: user.displayName || 'N/A',
+          businessName: user.businessName || 'N/A',
+          createdAt: user.createdAt,
+          coins: wallet?.coins || 0,
+          totalCoinsEarned: wallet?.totalCoinsEarned || 0,
+          totalCoinsSpent: wallet?.totalCoinsSpent || 0,
+          adsCount: {
+            total: ads.length,
+            pending: pendingAds.length,
+            approved: approvedAds.length,
+            rejected: rejectedAds.length
+          },
+          recentAds: ads.slice(0, 3).map(a => ({
+            id: a._id,
+            title: a.title,
+            status: a.adminApprovalStatus,
+            createdAt: a.createdAt
+          }))
+        };
+      })
+    );
+    
+    res.json({
+      totalUsers: usersWithStats.length,
+      users: usersWithStats
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to fetch users', error: error.message });
+  }
+});
+
 module.exports = router;

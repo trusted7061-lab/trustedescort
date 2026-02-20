@@ -3,8 +3,9 @@ import { Helmet } from 'react-helmet-async'
 import { motion, AnimatePresence } from 'framer-motion'
 
 function SuperAdminDashboard() {
-  const [activeTab, setActiveTab] = useState('pending-ads')
+  const [activeTab, setActiveTab] = useState('users')
   const [data, setData] = useState({
+    users: [],
     pendingAds: [],
     coinPurchases: [],
     stats: {}
@@ -15,17 +16,37 @@ function SuperAdminDashboard() {
   const [rejectionReason, setRejectionReason] = useState('')
 
   useEffect(() => {
+    if (activeTab === 'users') fetchUsers()
     if (activeTab === 'pending-ads') fetchPendingAds()
     if (activeTab === 'coin-purchases') fetchCoinPurchases()
     if (activeTab === 'stats') fetchStats()
   }, [activeTab])
 
+  const fetchUsers = async () => {
+    setIsLoading(true)
+    try {
+      const token = localStorage.getItem('adminToken')
+      const response = await fetch('https://trustedescort.onrender.com/api/ads/admin/users', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      })
+      const resData = await response.json()
+      setData(prev => ({ ...prev, users: resData.users || [] }))
+    } catch (error) {
+      setMessage(`Error fetching users: ${error.message}`)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   const fetchPendingAds = async () => {
     setIsLoading(true)
     try {
-      const response = await fetch('/api/ads/admin/pending-ads')
-      const data = await response.json()
-      setData(prev => ({ ...prev, pendingAds: data.ads }))
+      const token = localStorage.getItem('adminToken')
+      const response = await fetch('https://trustedescort.onrender.com/api/ads/admin/pending-ads', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      })
+      const resData = await response.json()
+      setData(prev => ({ ...prev, pendingAds: resData.ads || [] }))
     } catch (error) {
       setMessage(`Error: ${error.message}`)
     } finally {
@@ -36,9 +57,12 @@ function SuperAdminDashboard() {
   const fetchCoinPurchases = async () => {
     setIsLoading(true)
     try {
-      const response = await fetch('/api/ads/admin/coin-purchases')
-      const data = await response.json()
-      setData(prev => ({ ...prev, coinPurchases: data.wallets }))
+      const token = localStorage.getItem('adminToken')
+      const response = await fetch('https://trustedescort.onrender.com/api/ads/admin/coin-purchases', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      })
+      const resData = await response.json()
+      setData(prev => ({ ...prev, coinPurchases: resData.wallets || [] }))
     } catch (error) {
       setMessage(`Error: ${error.message}`)
     } finally {
@@ -49,9 +73,12 @@ function SuperAdminDashboard() {
   const fetchStats = async () => {
     setIsLoading(true)
     try {
-      const response = await fetch('/api/ads/admin/stats')
-      const data = await response.json()
-      setData(prev => ({ ...prev, stats: data }))
+      const token = localStorage.getItem('adminToken')
+      const response = await fetch('https://trustedescort.onrender.com/api/ads/admin/stats', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      })
+      const resData = await response.json()
+      setData(prev => ({ ...prev, stats: resData }))
     } catch (error) {
       setMessage(`Error: ${error.message}`)
     } finally {
@@ -61,12 +88,14 @@ function SuperAdminDashboard() {
 
   const handleApproveAd = async (adId) => {
     try {
-      const response = await fetch(`/api/ads/admin/ads/${adId}/approve`, {
-        method: 'POST'
+      const token = localStorage.getItem('adminToken')
+      const response = await fetch(`https://trustedescort.onrender.com/api/ads/admin/ads/${adId}/approve`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}` }
       })
       const result = await response.json()
       if (result.success) {
-        setMessage('✓ Ad approved!')
+        setMessage('✓ Ad approved! User will get coins now.')
         fetchPendingAds()
         setSelectedAd(null)
       }
@@ -81,14 +110,18 @@ function SuperAdminDashboard() {
       return
     }
     try {
-      const response = await fetch(`/api/ads/admin/ads/${adId}/reject`, {
+      const token = localStorage.getItem('adminToken')
+      const response = await fetch(`https://trustedescort.onrender.com/api/ads/admin/ads/${adId}/reject`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify({ rejectionReason })
       })
       const result = await response.json()
       if (result.success) {
-        setMessage('✓ Ad rejected and coins refunded!')
+        setMessage('✓ Ad rejected and coins refunded to user!')
         fetchPendingAds()
         setSelectedAd(null)
         setRejectionReason('')
@@ -134,7 +167,7 @@ function SuperAdminDashboard() {
 
           {/* Tabs */}
           <div className="flex gap-2 mb-8 flex-wrap border-b border-gold/20">
-            {['pending-ads', 'coin-purchases', 'stats'].map(tab => (
+            {['users', 'pending-ads', 'coin-purchases', 'stats'].map(tab => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -144,6 +177,7 @@ function SuperAdminDashboard() {
                     : 'border-transparent text-gray-400 hover:text-gray-300'
                 }`}
               >
+                {tab === 'users' && '👥 Users'}
                 {tab === 'pending-ads' && '📋 Pending Ads'}
                 {tab === 'coin-purchases' && '💰 Coin Purchases'}
                 {tab === 'stats' && '📊 Statistics'}
@@ -153,6 +187,21 @@ function SuperAdminDashboard() {
 
           {/* Content */}
           <AnimatePresence mode="wait">
+            {activeTab === 'users' && (
+              <motion.div
+                key="users"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+              >
+                <UsersTab
+                  users={data.users}
+                  isLoading={isLoading}
+                  onRefresh={fetchUsers}
+                />
+              </motion.div>
+            )}
+
             {activeTab === 'pending-ads' && (
               <motion.div
                 key="pending-ads"
@@ -477,6 +526,119 @@ function StatsTab({ stats, isLoading }) {
           </div>
         </div>
       </div>
+    </div>
+  )
+}
+
+// Users Tab Component
+function UsersTab({ users, isLoading, onRefresh }) {
+  return (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-2xl font-bold text-gold">All Users ({users.length})</h2>
+        <button
+          onClick={onRefresh}
+          className="px-4 py-2 bg-gold/20 text-gold rounded-lg hover:bg-gold/30 transition"
+        >
+          🔄 Refresh
+        </button>
+      </div>
+
+      {isLoading ? (
+        <div className="text-center text-gray-400 py-8">Loading users...</div>
+      ) : users.length === 0 ? (
+        <div className="text-center text-gray-400 py-8">No users found</div>
+      ) : (
+        <div className="space-y-4">
+          {users.map(user => (
+            <motion.div
+              key={user.id}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-dark-card border border-gold/20 rounded-lg p-6 hover:border-gold/40 transition"
+            >
+              <div className="grid md:grid-cols-2 gap-6">
+                {/* User Details */}
+                <div>
+                  <h3 className="text-xl font-bold text-gold mb-3">{user.displayName || user.businessName || 'N/A'}</h3>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-center gap-2">
+                      <span className="text-gray-400">📧 Email:</span>
+                      <span className="text-white">{user.email}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-gray-400">📱 Phone:</span>
+                      <span className="text-white">{user.phone}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-gray-400">🏢 Business:</span>
+                      <span className="text-white">{user.businessName || 'N/A'}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-gray-400">📅 Joined:</span>
+                      <span className="text-white">{new Date(user.createdAt).toLocaleDateString()}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Stats */}
+                <div className="grid grid-cols-2 gap-4">
+                  <StatCard
+                    title="Total Coins"
+                    value={user.coins}
+                    color="text-gold"
+                    icon="💰"
+                  />
+                  <StatCard
+                    title="Total Ads"
+                    value={user.adsCount.total}
+                    color="text-blue-400"
+                    icon="📋"
+                  />
+                  <StatCard
+                    title="Pending Ads"
+                    value={user.adsCount.pending}
+                    color="text-yellow-400"
+                    icon="⏳"
+                  />
+                  <StatCard
+                    title="Approved Ads"
+                    value={user.adsCount.approved}
+                    color="text-green-400"
+                    icon="✓"
+                  />
+                </div>
+              </div>
+
+              {/* Recent Ads */}
+              {user.recentAds.length > 0 && (
+                <div className="mt-4 pt-4 border-t border-gold/10">
+                  <h4 className="text-sm font-bold text-gold mb-3">Recent Ads</h4>
+                  <div className="grid gap-2">
+                    {user.recentAds.map(ad => (
+                      <div
+                        key={ad.id}
+                        className="flex items-center justify-between p-2 bg-dark-bg rounded text-sm"
+                      >
+                        <span className="text-gray-300">{ad.title.substring(0, 40)}...</span>
+                        <span className={`px-2 py-1 rounded text-xs font-bold ${
+                          ad.status === 'approved'
+                            ? 'bg-green-500/20 text-green-400'
+                            : ad.status === 'pending'
+                            ? 'bg-yellow-500/20 text-yellow-400'
+                            : 'bg-red-500/20 text-red-400'
+                        }`}>
+                          {ad.status.toUpperCase()}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </motion.div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
