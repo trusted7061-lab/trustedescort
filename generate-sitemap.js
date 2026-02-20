@@ -1,7 +1,7 @@
 // Sitemap Generator Script
 // Run with: node generate-sitemap.js
 
-const fs = require('fs');
+import fs from 'fs';
 
 const content = fs.readFileSync('src/services/locationsData.js', 'utf8');
 const cityMatch = content.match(/cities:\s*\[([^\]]*)\]/g);
