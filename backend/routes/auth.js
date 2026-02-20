@@ -699,4 +699,160 @@ router.get('/profile', async (req, res) => {
   }
 });
 
+// ==========================================
+// SUPER ADMIN ROUTES
+// ==========================================
+
+// Admin Login
+router.post('/admin/login', [
+  body('email').isEmail().normalizeEmail().withMessage('Valid email required'),
+  body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters')
+], async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  try {
+    const { email, password } = req.body;
+
+    // Find user by email
+    const user = await User.findOne({ email: email.toLowerCase() });
+
+    if (!user || user.role !== 'admin') {
+      return res.status(401).json({ message: 'Invalid admin credentials' });
+    }
+
+    // Check password
+    const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: 'Invalid admin credentials' });
+    }
+
+    // Generate tokens
+    const token = jwt.sign(
+      { userId: user._id, email: user.email, role: user.role },
+      process.env.JWT_SECRET || 'your_jwt_secret_here',
+      { expiresIn: '24h' }
+    );
+
+    const refreshToken = jwt.sign(
+      { userId: user._id },
+      process.env.JWT_REFRESH_SECRET || 'your_refresh_secret_here',
+      { expiresIn: '7d' }
+    );
+
+    user.refreshToken = refreshToken;
+    await user.save();
+
+    res.json({
+      success: true,
+      token,
+      refreshToken,
+      user: {
+        id: user._id,
+        email: user.email,
+        displayName: user.displayName,
+        role: user.role
+      },
+      message: 'Admin login successful'
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Admin login failed', error: error.message });
+  }
+});
+
+// Create Initial Super Admin (Restricted - Only for first setup)
+router.post('/admin/setup', [
+  body('email').isEmail().normalizeEmail().withMessage('Valid email required'),
+  body('password').isLength({ min: 8 }).withMessage('Password must be at least 8 characters'),
+  body('setupKey').notEmpty().withMessage('Setup key required') // Use environment variable
+], async (req, res) => {
+  try {
+    const { email, password, setupKey } = req.body;
+
+    // Verify setup key (should match environment variable)
+    const validSetupKey = process.env.ADMIN_SETUP_KEY || 'TRUSTED_ESCORT_SETUP_KEY_2024';
+    if (setupKey !== validSetupKey) {
+      return res.status(403).json({ message: 'Invalid setup key' });
+    }
+
+    // Check if admin already exists
+    const existingAdmin = await User.findOne({ role: 'admin' });
+    if (existingAdmin) {
+      return res.status(400).json({ message: 'Admin account already exists' });
+    }
+
+    // Check if user with this email exists
+    let user = await User.findOne({ email: email.toLowerCase() });
+
+    if (user) {
+      // Update existing user to admin
+      user.role = 'admin';
+      user.adminCreatedAt = new Date();
+    } else {
+      // Create new admin user
+      const passwordHash = await bcrypt.hash(password, 10);
+      user = new User({
+        email: email.toLowerCase(),
+        passwordHash,
+        displayName: 'Super Admin',
+        role: 'admin',
+        adminCreatedAt: new Date(),
+        isEmailVerified: true,
+        authProvider: 'local'
+      });
+    }
+
+    await user.save();
+
+    res.status(201).json({
+      success: true,
+      message: 'Super admin account created/updated successfully',
+      admin: {
+        id: user._id,
+        email: user.email,
+        role: user.role
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to setup admin', error: error.message });
+  }
+});
+
+// Get Admin Info (Protected)
+router.get('/admin/me', async (req, res) => {
+  try {
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) {
+      return res.status(401).json({ message: 'No authorization token' });
+    }
+
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET || 'your_jwt_secret_here'
+    );
+
+    const user = await User.findById(decoded.userId);
+    if (!user || user.role !== 'admin') {
+      return res.status(403).json({ message: 'Admin access required' });
+    }
+
+    res.json({
+      success: true,
+      user: {
+        id: user._id,
+        email: user.email,
+        displayName: user.displayName,
+        role: user.role,
+        createdAt: user.createdAt
+      }
+    });
+  } catch (error) {
+    res.status(401).json({ message: 'Invalid or expired token' });
+  }
+});
+
 module.exports = router;
+
+

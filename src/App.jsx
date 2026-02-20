@@ -23,6 +23,10 @@ import AdvertiserDashboard from './pages/AdvertiserDashboard'
 import PostRequirement from './pages/PostRequirement'
 import Location from './pages/Location'
 import FAQ from './pages/FAQ'
+import AdminLogin from './pages/AdminLogin'
+import SuperAdminDashboard from './pages/SuperAdminDashboard'
+import CoinPurchase from './pages/CoinPurchase'
+import PostAd from './pages/PostAd'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import Terms from './pages/Terms'
 import NotFound from './pages/NotFound'
@@ -73,6 +77,10 @@ function App() {
               <Route path="/advertiser-signup" element={<AdvertiserSignup />} />
               <Route path="/advertiser-dashboard" element={<AdvertiserDashboard />} />
               <Route path="/post-requirement" element={<PostRequirement />} />
+              <Route path="/coin-purchase" element={<CoinPurchase />} />
+              <Route path="/post-ad" element={<PostAd />} />
+              <Route path="/admin/login" element={<AdminLogin />} />
+              <Route path="/admin/dashboard" element={<SuperAdminDashboard />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>

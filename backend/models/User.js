@@ -55,7 +55,15 @@ const userSchema = new mongoose.Schema({
   averageRate: { type: String },
   availability: { type: String, enum: ['full-time', 'part-time', 'weekends'], default: 'part-time' },
   photos: [{ type: String }],
-  userType: { type: String, enum: ['user', 'advertiser'], default: 'user' }
+  userType: { type: String, enum: ['user', 'advertiser'], default: 'user' },
+  
+  // Admin role
+  role: { 
+    type: String, 
+    enum: ['user', 'admin'], 
+    default: 'user' 
+  },
+  adminCreatedAt: { type: Date }
 }, { timestamps: true });
 
 // Pre-save validation: ensure at least one contact method exists (unless Google OAuth)
