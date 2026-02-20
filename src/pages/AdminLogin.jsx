@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Mail, Lock, AlertCircle, Loader } from 'lucide-react';
-import apiService from '../services/apiService';
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('');
@@ -16,21 +15,33 @@ export default function AdminLogin() {
     setLoading(true);
 
     try {
-      const response = await apiService.post('/api/auth/admin/login', {
-        email,
-        password
+      const API_BASE_URL = import.meta.env.DEV
+        ? '/api'
+        : (import.meta.env.VITE_API_URL || 'http://localhost:5002/api');
+
+      const response = await fetch(`${API_BASE_URL}/auth/admin/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
       });
 
-      if (response.success) {
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.message || 'Login failed. Check your credentials.');
+        return;
+      }
+
+      if (data.success || data.token) {
         // Store admin token
-        localStorage.setItem('adminToken', response.token);
-        localStorage.setItem('adminUser', JSON.stringify(response.user));
+        localStorage.setItem('adminToken', data.token);
+        localStorage.setItem('adminUser', JSON.stringify(data.user));
         
         // Redirect to admin dashboard
         navigate('/admin/dashboard');
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed. Check your credentials.');
+      setError(err.message || 'Login failed. Check your credentials.');
     } finally {
       setLoading(false);
     }
