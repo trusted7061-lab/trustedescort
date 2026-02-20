@@ -1,18 +1,8 @@
 # robots.txt for Trusted Escort
-# Last updated: 2026-02-18
+# Last updated: 2026-02-20
 
-# Allow all search engines
+# Default rules for all search engines
 User-agent: *
-Allow: /
-
-# Main content pages (high priority)
-Allow: /escorts
-Allow: /escorts/in/*
-Allow: /location/*
-Allow: /booking
-Allow: /about
-Allow: /contact
-Allow: /faq
 
 # Disallow authentication & private pages
 Disallow: /signin
@@ -34,19 +24,49 @@ Crawl-delay: 1
 Sitemap: https://trustedescort.in/sitemap.xml
 
 # For AI crawlers
-# llms.txt: https://www.trustedescort.in/llms.txt
+# llms.txt: https://trustedescort.in/llms.txt
 
 # Google specific
 User-agent: Googlebot
-Allow: /
+Disallow: /signin
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /resend-confirmation
+Disallow: /account
+Disallow: /advertiser-dashboard
+Disallow: /advertiser-signup
+Disallow: /post-requirement
+Disallow: /profile
+Disallow: /admin/
+Disallow: /api/
 Crawl-delay: 0
 
 # Bing
 User-agent: Bingbot
-Allow: /
+Disallow: /signin
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /resend-confirmation
+Disallow: /account
+Disallow: /advertiser-dashboard
+Disallow: /advertiser-signup
+Disallow: /post-requirement
+Disallow: /profile
+Disallow: /admin/
+Disallow: /api/
 Crawl-delay: 1
 
 # Yandex
 User-agent: Yandex
-Allow: /
+Disallow: /signin
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /resend-confirmation
+Disallow: /account
+Disallow: /advertiser-dashboard
+Disallow: /advertiser-signup
+Disallow: /post-requirement
+Disallow: /profile
+Disallow: /admin/
+Disallow: /api/
 Crawl-delay: 2
