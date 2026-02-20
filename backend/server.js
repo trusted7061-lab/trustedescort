@@ -54,12 +54,20 @@ app.get('/api/health', (req, res) => {
 
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/authdb')
-  .then(() => console.log('MongoDB connected'))
+const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/authdb';
+console.log('🔧 MongoDB URI configured:', mongoUri.includes('mongodb+srv') ? '✅ Atlas Connection' : '❌ Localhost Connection');
+console.log('📊 Environment variables:', {
+  NODE_ENV: process.env.NODE_ENV,
+  PORT: process.env.PORT,
+  MONGODB_CONFIGURED: !!process.env.MONGODB_URI
+});
+
+mongoose.connect(mongoUri)
+  .then(() => console.log('✅ MongoDB connected successfully'))
   .catch(err => {
-    console.error('MongoDB connection error:', err.message);
-    console.log('Server will continue without database connection for development');
+    console.error('❌ MongoDB connection error:', err.message);
+    console.log('⚠️  Server will continue without database connection for development');
   });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
