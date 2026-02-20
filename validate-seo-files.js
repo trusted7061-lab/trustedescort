@@ -112,10 +112,10 @@ try {
   
   // Check for required pages
   const requiredPages = [
-    { name: 'Homepage', url: 'https://www.trustedescort.in/' },
-    { name: 'Escorts page', url: 'https://www.trustedescort.in/escorts' },
-    { name: 'About page', url: 'https://www.trustedescort.in/about' },
-    { name: 'Contact page', url: 'https://www.trustedescort.in/contact' }
+    { name: 'Homepage', url: 'https://trustedescort.in/' },
+    { name: 'Escorts page', url: 'https://trustedescort.in/escorts' },
+    { name: 'About page', url: 'https://trustedescort.in/about' },
+    { name: 'Contact page', url: 'https://trustedescort.in/contact' }
   ];
   
   console.log(`\n${colors.blue}Required pages:${colors.reset}`);

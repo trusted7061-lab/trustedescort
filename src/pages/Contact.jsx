@@ -135,23 +135,23 @@ function Contact() {
         <meta name="title" content="Contact Us | Trusted Escort" />
         <meta name="description" content="Get in touch with Trusted Escort. Available 24/7 for inquiries and bookings. Email, phone, and WhatsApp support available." />
         <meta name="keywords" content="contact escort service, book escort, escort inquiry, 24/7 escort service, trusted escort contact, escort booking India" />
-        <link rel="canonical" href="https://www.trustedescort.in/contact" />
+        <link rel="canonical" href="https://trustedescort.in/contact" />
         
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.trustedescort.in/contact" />
+        <meta property="og:url" content="https://trustedescort.in/contact" />
         <meta property="og:title" content="Contact Us | Trusted Escort" />
         <meta property="og:description" content="Get in touch with Trusted Escort. Available 24/7 for inquiries and bookings." />
-        <meta property="og:image" content="https://www.trustedescort.in/og-image.jpg" />
+        <meta property="og:image" content="https://trustedescort.in/og-image.jpg" />
         <meta property="og:locale" content="en_IN" />
         <meta property="og:site_name" content="Trusted Escort" />
         
         {/* Twitter */}
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://www.trustedescort.in/contact" />
+        <meta property="twitter:url" content="https://trustedescort.in/contact" />
         <meta property="twitter:title" content="Contact Us | Trusted Escort" />
         <meta property="twitter:description" content="Get in touch with Trusted Escort. Available 24/7 for inquiries and bookings." />
-        <meta property="twitter:image" content="https://www.trustedescort.in/og-image.jpg" />
+        <meta property="twitter:image" content="https://trustedescort.in/og-image.jpg" />
         
         {/* Additional SEO */}
         <meta name="robots" content="index, follow" />
@@ -164,7 +164,7 @@ function Contact() {
             "@context": "https://schema.org",
             "@type": "ContactPage",
             "name": "Contact Trusted Escort",
-            "url": "https://www.trustedescort.in/contact",
+            "url": "https://trustedescort.in/contact",
             "description": "Get in touch with Trusted Escort. Available 24/7 for inquiries and bookings.",
             "mainEntity": {
               "@type": "Organization",
@@ -201,13 +201,13 @@ function Contact() {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "Home",
-                "item": "https://www.trustedescort.in"
+                "item": "https://trustedescort.in"
               },
               {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "Contact",
-                "item": "https://www.trustedescort.in/contact"
+                "item": "https://trustedescort.in/contact"
               }
             ]
           })}

@@ -152,20 +152,20 @@ function Home() {
         <meta name="title" content="Trusted Escort | Exclusive Escortship, Redefined" />
         <meta name="description" content="Discreet, sophisticated, unforgettable escortship services. Premium escort companions in Mumbai, Delhi, Bangalore, and major Indian cities. Available 24/7." />
         <meta name="keywords" content="escort service, premium escorts, luxury companionship, elite escorts, trusted escort, high-class escorts India, Mumbai escorts, Delhi escorts, Bangalore escorts" />
-        <link rel="canonical" href="https://www.trustedescort.in/" />
+        <link rel="canonical" href="https://trustedescort.in/" />
         
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.trustedescort.in/" />
+        <meta property="og:url" content="https://trustedescort.in/" />
         <meta property="og:title" content="Trusted Escort | Exclusive Escortship, Redefined" />
         <meta property="og:description" content="Discreet, sophisticated, unforgettable escortship services. Premium escort companions available 24/7." />
-        <meta property="og:image" content="https://www.trustedescort.in/og-image.jpg" />
+        <meta property="og:image" content="https://trustedescort.in/og-image.jpg" />
         <meta property="og:locale" content="en_IN" />
         <meta property="og:site_name" content="Trusted Escort" />
         
         {/* Twitter */}
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://www.trustedescort.in/" />
+        <meta property="twitter:url" content="https://trustedescort.in/" />
         <meta property="twitter:title" content="Trusted Escort | Exclusive Escortship, Redefined" />
         <meta property="twitter:description" content="Discreet, sophisticated, unforgettable escortship services. Premium escort companions available 24/7." />
         <meta property="twitter:image" content="https://www.trustedescort.in/og-image.jpg" />

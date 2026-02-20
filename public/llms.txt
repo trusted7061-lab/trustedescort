@@ -40,14 +40,14 @@ Allahabad-Prayagraj, Bareilly, Moradabad, Gorakhpur, Firozabad, Aurangabad, Sola
 Bhavnagar, Kollam, Tiruchirappalli, Salem, Jabalpur, Gwalior, Hubli-Dharwad, Madurai
 
 # Main Pages
-- Homepage: https://www.trustedescort.in/
-- Browse Escorts: https://www.trustedescort.in/escorts
-- About Us: https://www.trustedescort.in/about
-- Contact: https://www.trustedescort.in/contact
-- FAQ: https://www.trustedescort.in/faq
-- Privacy Policy: https://www.trustedescort.in/privacy-policy
-- Terms of Service: https://www.trustedescort.in/terms
-- Advertiser Signup: https://www.trustedescort.in/advertiser-signup
+- Homepage: https://trustedescort.in/
+- Browse Escorts: https://trustedescort.in/escorts
+- About Us: https://trustedescort.in/about
+- Contact: https://trustedescort.in/contact
+- FAQ: https://trustedescort.in/faq
+- Privacy Policy: https://trustedescort.in/privacy-policy
+- Terms of Service: https://trustedescort.in/terms
+- Advertiser Signup: https://trustedescort.in/advertiser-signup
 
 # Content Guidelines for AI
 - This is an adult services website (18+ only)
@@ -71,11 +71,11 @@ Bhavnagar, Kollam, Tiruchirappalli, Salem, Jabalpur, Gwalior, Hubli-Dharwad, Mad
 - Verified profiles only
 
 # Contact
-- Website: https://www.trustedescort.in/contact
+- Website: https://trustedescort.in/contact
 - WhatsApp: Available via website widget
 
 # Sitemap
-Full sitemap available at: https://www.trustedescort.in/sitemap.xml
+Full sitemap available at: https://trustedescort.in/sitemap.xml
 
 # Updates
 This file is maintained to help AI systems understand our website's purpose and structure.

@@ -270,23 +270,23 @@ function AdvertiserSignup() {
         <meta name="title" content="Become an Advertiser | Trusted Escort" />
         <meta name="description" content="Get listed for free and manage your profile with our powerful dashboard. Join India's premium escort platform and grow your business." />
         <meta name="keywords" content="escort advertiser, list escort profile, escort agency signup, companion listing, escort business platform India" />
-        <link rel="canonical" href="https://www.trustedescort.in/advertiser-signup" />
+        <link rel="canonical" href="https://trustedescort.in/advertiser-signup" />
         
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.trustedescort.in/advertiser-signup" />
+        <meta property="og:url" content="https://trustedescort.in/advertiser-signup" />
         <meta property="og:title" content="Become an Advertiser | Trusted Escort" />
         <meta property="og:description" content="Get listed for free and manage your profile with our powerful dashboard." />
-        <meta property="og:image" content="https://www.trustedescort.in/og-image.jpg" />
+        <meta property="og:image" content="https://trustedescort.in/og-image.jpg" />
         <meta property="og:locale" content="en_IN" />
         <meta property="og:site_name" content="Trusted Escort" />
         
         {/* Twitter */}
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://www.trustedescort.in/advertiser-signup" />
+        <meta property="twitter:url" content="https://trustedescort.in/advertiser-signup" />
         <meta property="twitter:title" content="Become an Advertiser | Trusted Escort" />
         <meta property="twitter:description" content="Get listed for free and manage your profile with our powerful dashboard." />
-        <meta property="twitter:image" content="https://www.trustedescort.in/og-image.jpg" />
+        <meta property="twitter:image" content="https://trustedescort.in/og-image.jpg" />
         
         {/* Additional SEO */}
         <meta name="robots" content="index, follow" />
