@@ -15,9 +15,16 @@ export default function AdminLogin() {
     setLoading(true);
 
     try {
-      const API_BASE_URL = import.meta.env.DEV
-        ? '/api'
-        : (import.meta.env.VITE_API_URL || 'http://localhost:5002/api');
+      // Determine API URL based on environment
+      let API_BASE_URL;
+      
+      if (import.meta.env.DEV) {
+        // Development: use proxy
+        API_BASE_URL = '/api';
+      } else {
+        // Production: use Render backend
+        API_BASE_URL = 'https://trustedescort.onrender.com/api';
+      }
 
       const response = await fetch(`${API_BASE_URL}/auth/admin/login`, {
         method: 'POST',
