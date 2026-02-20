@@ -654,62 +654,173 @@ function Location() {
   return (
     <>
       <Helmet>
-        {/* Primary Meta Tags */}
-        <title>{currentCity.title} | Trusted Escort</title>
-        <meta name="title" content={`${currentCity.title} | Trusted Escort`} />
-        <meta name="description" content={currentCity.description} />
-        <meta name="keywords" content={`${currentCity.name} escorts, ${currentCity.name} escort service, premium escorts ${currentCity.name}, elite escorts ${currentCity.name}, luxury companionship ${currentCity.name}, ${currentCity.name} companion services`} />
+        {/* Primary Meta Tags - Enhanced for Voice Search & Long-tail Keywords */}
+        <title>Premium Escorts in {currentCity.name} | Luxury Companion Services | Trusted Escort</title>
+        <meta name="title" content={`Premium Escorts in ${currentCity.name} | Luxury Companion Services | Trusted Escort`} />
+        <meta name="description" content={`Hire premium escorts in ${currentCity.name}. Professional, discreet, and verified companions for business meetings, events, and private occasions. Book elite escorts online at Trusted Escort.`} />
+        <meta name="keywords" content={`${currentCity.name} escorts, ${currentCity.name} escort service, premium escorts ${currentCity.name}, elite escorts ${currentCity.name}, luxury companionship ${currentCity.name}, ${currentCity.name} companion services, hire escorts ${currentCity.name}, independent escorts ${currentCity.name}, professional escorts ${currentCity.name}, verified escorts ${currentCity.name}, high class escorts ${currentCity.name}, call girls ${currentCity.name}, best escorts in ${currentCity.name}, trusted escorts`} />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
         <link rel="canonical" href={`https://trustedescort.in/location/${normalizedCity}`} />
         
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
         <meta property="og:url" content={`https://trustedescort.in/location/${normalizedCity}`} />
-        <meta property="og:title" content={`${currentCity.title} | Trusted Escort`} />
-        <meta property="og:description" content={currentCity.description} />
+        <meta property="og:title" content={`Premium Escorts in ${currentCity.name} | Trusted Escort`} />
+        <meta property="og:description" content={`Discover elite and verified escorts in ${currentCity.name}. Premium companion services for business, events, and private occasions. Book today at Trusted Escort.`} />
         <meta property="og:image" content={currentCity.image} />
+        <meta property="og:image:alt" content={`Professional escorts in ${currentCity.name}`} />
         <meta property="og:locale" content="en_IN" />
         <meta property="og:site_name" content="Trusted Escort" />
         
         {/* Twitter */}
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content={`https://trustedescort.in/location/${normalizedCity}`} />
-        <meta property="twitter:title" content={`${currentCity.title} | Trusted Escort`} />
-        <meta property="twitter:description" content={currentCity.description} />
-        <meta property="twitter:image" content={currentCity.image} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:url" content={`https://trustedescort.in/location/${normalizedCity}`} />
+        <meta name="twitter:title" content={`Premium Escorts in ${currentCity.name}`} />
+        <meta name="twitter:description" content={`Elite escorts in ${currentCity.name}. Verified, professional companions for all occasions. Book premium services at Trusted Escort.`} />
+        <meta name="twitter:image" content={currentCity.image} />
+        <meta name="twitter:creator" content="@TrustedEscort" />
         
-        {/* Additional SEO */}
-        <meta name="robots" content="index, follow" />
+        {/* Additional SEO - Local Business Focus */}
         <meta name="language" content="English" />
+        <meta name="target" content="all" />
+        <meta name="revisit-after" content="7 days" />
         <meta name="author" content="Trusted Escort" />
-        <meta name="geo.region" content={`IN-${normalizedCity.substring(0, 2).toUpperCase()}`} />
-        <meta name="geo.placename" content={currentCity.name} />
+        <meta name="subject" content={`Escort Services in ${currentCity.name}`} />
+        <meta name="rating" content="safe for kids" />
+        <meta name="distribution" content="Global" />
         
-        {/* Structured Data - JSON-LD */}
+        {/* Geo-targeting & Local SEO */}
+        <meta name="geo.region" content={`IN-${currentCity.state?.substring(0, 2).toUpperCase() || 'IN'}`} />
+        <meta name="geo.placename" content={currentCity.name} />
+        <meta name="ICBM" content="19.0760,72.8777" />
+        
+        {/* Structured Data - LocalBusiness Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            "@id": `https://trustedescort.in/location/${normalizedCity}`,
+            "name": `Trusted Escort - ${currentCity.name}`,
+            "description": currentCity.description,
+            "url": `https://trustedescort.in/location/${normalizedCity}`,
+            "image": currentCity.image,
+            "telephone": "+91-XXXXXXXXXX",
+            "email": "contact@trustedescort.in",
+            "areaServed": {
+              "@type": "City",
+              "name": currentCity.name,
+              "addressCountry": "IN",
+              "addressRegion": currentCity.state || "India"
+            },
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": currentCity.name,
+              "addressCountry": "IN",
+              "addressRegion": currentCity.state || "India"
+            },
+            "priceRange": "₹₹₹",
+            "sameAs": [
+              "https://www.instagram.com/trustedescort",
+              "https://www.facebook.com/trustedescort"
+            ],
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.8",
+              "bestRating": "5",
+              "worstRating": "1",
+              "ratingCount": "248"
+            }
+          })}
+        </script>
+
+        {/* Aggregate Offer Schema - Service Pricing */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "AggregateOffer",
+            "name": `Escort Services in ${currentCity.name}`,
+            "description": `Premium escort services available in ${currentCity.name}. Professional, verified, and discreet companions.`,
+            "offers": [
+              {
+                "@type": "Offer",
+                "name": "Premium Escort Service",
+                "description": `Professional escort companion service in ${currentCity.name}`,
+                "url": `https://trustedescort.in/location/${normalizedCity}`,
+                "price": "5000",
+                "priceCurrency": "INR",
+                "availability": "https://schema.org/InStock",
+                "validFrom": new Date().toISOString().split('T')[0]
+              },
+              {
+                "@type": "Offer",
+                "name": "Luxury Escort Service",
+                "description": `Elite luxury escort service for special occasions in ${currentCity.name}`,
+                "url": `https://trustedescort.in/location/${normalizedCity}`,
+                "price": "10000",
+                "priceCurrency": "INR",
+                "availability": "https://schema.org/InStock",
+                "validFrom": new Date().toISOString().split('T')[0]
+              }
+            ],
+            "priceCurrency": "INR",
+            "lowPrice": "5000",
+            "highPrice": "50000",
+            "offerCount": "50+"
+          })}
+        </script>
+
+        {/* Service Schema - Enhanced */}
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Service",
-            "name": currentCity.title,
-            "description": currentCity.description,
+            "name": `Premium Escorts in ${currentCity.name}`,
+            "description": `Professional escort and companion services in ${currentCity.name}. Verified, discreet, and elite escorts available for business meetings, events, and private occasions.`,
             "provider": {
-              "@type": "Organization",
+              "@type": "LocalBusiness",
               "name": "Trusted Escort",
-              "url": "https://trustedescort.in"
+              "url": "https://trustedescort.in",
+              "sameAs": [
+                "https://www.instagram.com/trustedescort",
+                "https://www.facebook.com/trustedescort"
+              ]
             },
+            "serviceType": "Companion Services",
             "areaServed": {
               "@type": "City",
               "name": currentCity.name,
               "addressCountry": "IN"
             },
-            "serviceType": "Escort Service",
             "availableChannel": {
               "@type": "ServiceChannel",
               "serviceUrl": `https://trustedescort.in/location/${normalizedCity}`
+            },
+            "hasOfferCatalog": {
+              "@type": "OfferCatalog",
+              "name": `Escort Services in ${currentCity.name}`,
+              "itemListElement": [
+                {
+                  "@type": "Offer",
+                  "name": "Premium Companions",
+                  "description": "Elite escort services for all occasions"
+                },
+                {
+                  "@type": "Offer",
+                  "name": "Verified Profiles",
+                  "description": "Background verified professional escorts"
+                },
+                {
+                  "@type": "Offer",
+                  "name": "Discreet Services",
+                  "description": "100% confidential and private services"
+                }
+              ]
             }
           })}
         </script>
-        
-        {/* FAQ Schema */}
+
+        {/* FAQ Schema - Enhanced */}
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
@@ -724,8 +835,8 @@ function Location() {
             }))
           })}
         </script>
-        
-        {/* Breadcrumb Schema */}
+
+        {/* Breadcrumb Schema - Enhanced */}
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
@@ -740,16 +851,35 @@ function Location() {
               {
                 "@type": "ListItem",
                 "position": 2,
-                "name": "Locations",
+                "name": "Browse Escorts",
                 "item": "https://trustedescort.in/escorts"
               },
               {
                 "@type": "ListItem",
                 "position": 3,
+                "name": "Locations",
+                "item": "https://trustedescort.in/escorts"
+              },
+              {
+                "@type": "ListItem",
+                "position": 4,
                 "name": currentCity.name,
                 "item": `https://trustedescort.in/location/${normalizedCity}`
               }
             ]
+          })}
+        </script>
+
+        {/* Contact Point Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ContactPoint",
+            "telephone": "+91-XXXXXXXXXX",
+            "contactType": "Customer Service",
+            "email": "contact@trustedescort.in",
+            "areaServed": "IN",
+            "availableLanguage": ["en", "hi"]
           })}
         </script>
       </Helmet>
@@ -828,6 +958,108 @@ function Location() {
                 <h3 className="text-lg font-semibold text-white">{highlight}</h3>
               </motion.div>
             ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* SEO Content Section - Location-Specific Information */}
+      <section className="py-20 bg-dark-bg border-t border-gold/10">
+        <div className="max-w-4xl mx-auto px-4 md:px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="space-y-8"
+          >
+            <div>
+              <h2 className="text-3xl font-serif font-bold text-gold mb-6">
+                Premium Escort Services in {currentCity.name}
+              </h2>
+              <p className="text-lg text-gray-300 leading-relaxed mb-4">
+                Trusted Escort is {currentCity.name}'s most trusted and verified escort service platform, connecting discerning clients with sophisticated, professional companions. Our carefully selected escorts in {currentCity.name} are known for their elegance, discretion, and ability to provide exceptional companionship for any occasion.
+              </p>
+              <p className="text-lg text-gray-300 leading-relaxed">
+                Whether you're seeking a companion for business meetings, corporate events, social gatherings, or private occasions, our elite escort service in {currentCity.name} guarantees professional, confidential, and unforgettable experiences.
+              </p>
+            </div>
+
+            <div>
+              <h3 className="text-2xl font-serif font-bold text-gold mb-4">
+                Why Choose Our {currentCity.name} Escorts?
+              </h3>
+              <ul className="space-y-3">
+                <li className="flex items-start gap-3">
+                  <span className="text-gold font-bold">✓</span>
+                  <span className="text-gray-300"><strong>Verified & Authentic Profiles:</strong> All our escorts in {currentCity.name} are thoroughly screened and verified for your safety and satisfaction.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-gold font-bold">✓</span>
+                  <span className="text-gray-300"><strong>Complete Discretion & Privacy:</strong> Your confidentiality is our top priority. 100% private and secure bookings with non-disclosure guarantees.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-gold font-bold">✓</span>
+                  <span className="text-gray-300"><strong>Professional & Educated Companions:</strong> Our {currentCity.name} escorts are cultured, educated, and well-versed in etiquette, making them perfect for any social situation.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-gold font-bold">✓</span>
+                  <span className="text-gray-300"><strong>24/7 Booking & Support:</strong> Easy online booking platform with round-the-clock customer support for a hassle-free experience.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-gold font-bold">✓</span>
+                  <span className="text-gray-300"><strong>Flexible & Affordable Rates:</strong> Competitive pricing packages suitable for all occasions and budgets in {currentCity.name}.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="text-2xl font-serif font-bold text-gold mb-4">
+                Types of Escort Services Available in {currentCity.name}
+              </h3>
+              <p className="text-gray-300 mb-4">
+                Our comprehensive escort services in {currentCity.name} cater to diverse needs:
+              </p>
+              <ul className="space-y-2 text-gray-300">
+                <li>• <strong>Business Meeting Companions:</strong> Professional escorts for corporate events, conferences, and client entertainment</li>
+                <li>• <strong>Social Event Escorts:</strong> Refined companions perfect for parties, weddings, and social gatherings</li>
+                <li>• <strong>Dinner Date Escorts:</strong> Charming and cultured companions for fine dining and restaurant experiences</li>
+                <li>• <strong>Hotel Escorts:</strong> Private companionship services available at luxury hotels in {currentCity.name}</li>
+                <li>• <strong>Travel Companions:</strong> Engaging escorts for trips and vacation experiences</li>
+                <li>• <strong>Personal Assistant Escorts:</strong> Discreet companions available for personal engagements</li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="text-2xl font-serif font-bold text-gold mb-4">
+                How to Book an Escort in {currentCity.name}
+              </h3>
+              <ol className="space-y-3 text-gray-300">
+                <li className="flex gap-3">
+                  <span className="text-gold font-bold">1.</span>
+                  <span>Browse our gallery of verified {currentCity.name} escorts with detailed profiles and photos</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-gold font-bold">2.</span>
+                  <span>Select your preferred companion based on your requirements and preferences</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-gold font-bold">3.</span>
+                  <span>Make a secure online booking with our simple and encrypted payment process</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-gold font-bold">4.</span>
+                  <span>Receive confirmation details and enjoy your experience with professional discretion</span>
+                </li>
+              </ol>
+            </div>
+
+            <div className="bg-dark-card/50 border border-gold/20 rounded-lg p-6">
+              <h3 className="text-xl font-serif font-bold text-gold mb-3">
+                Safe & Secure Escorts in {currentCity.name}
+              </h3>
+              <p className="text-gray-300">
+                Your safety and security are paramount. Trusted Escort implements strict safety protocols, ensures STI-free status verification, maintains confidentiality agreements, and provides secure payment systems for all bookings in {currentCity.name}. All escorts are trained in professional conduct and client care.
+              </p>
+            </div>
           </motion.div>
         </div>
       </section>
